@@ -1,0 +1,70 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+body {
+  margin: auto;
+  /* max-width: 1440px; */
+  position: relative;
+}
+.spinner {
+  border-width: 4px;
+  border-color: rgba(255, 255, 255, 0.5);
+  border-top-color: #3498db; /* Màu của spinner */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Vòng tròn tiến độ */
+.progress-container {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.progress-circle-background,
+.progress-circle {
+  fill: none;
+  stroke-width: 1; /* Điều chỉnh độ dày của đường viền */
+  stroke-linecap: round;
+}
+
+.progress-circle-background {
+  stroke: #e6e6e6; /* Màu nền */
+}
+
+.progress-circle {
+  stroke: #fbbf24; /* Màu tiến độ */
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.progress-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px; /* Giảm kích thước chữ */
+  font-weight: 600;
+}
+
+.progress-subtext {
+  position: absolute;
+  top: 90%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 8px; /* Giảm kích thước chữ */
+  font-weight: 500;
+  color: #888;
+}
