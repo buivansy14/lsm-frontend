@@ -41,7 +41,6 @@ function Signup() {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(uploadedImage);
       fileReader.addEventListener('load', function () {
-        console.log(this.result);
         setPrevImage(this.result);
       });
     }

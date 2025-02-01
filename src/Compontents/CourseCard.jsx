@@ -1,7 +1,7 @@
 import { FaClock, FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-import { convertSecondsToDuration } from '../Utils';
+import { convertSecondsToDuration, insertDashEveryTwoChars } from '../Utils';
 
 function CourseCard({ data }) {
   const navigate = useNavigate();
@@ -73,8 +73,18 @@ function CourseCard({ data }) {
       </div>
 
       {!data?.isActive && (
-        <div className="absolute left-1/2 transform -translate-x-1/2 bg-red-400 text-white text-sm py-1 px-4 rounded-md">
-          Chưa kích hoạt
+        <div className="absolute w-full text-white text-sm flex justify-between px-4">
+          <div className="bg-red-400 py-1 px-4 rounded-md">Chưa kích hoạt</div>
+          <div
+            className="bg-yellow-600 py-1 px-4 rounded-md"
+            onClick={() =>
+              navigate(
+                `/gioi-thieu-khoa-hoc/${insertDashEveryTwoChars(data?._id)}`
+              )
+            }
+          >
+            Chi tiết
+          </div>
         </div>
       )}
       {data?.isActive && (

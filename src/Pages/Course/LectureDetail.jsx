@@ -5,9 +5,11 @@ import { RxVideo } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import LoadingOverlay from '../../Compontents/LoadingOverlay';
 import NavbarLecture from '../../Compontents/NavbarLecture';
 import VideoPlayer from '../../Compontents/VideoPlayer';
 import axiosInstance from '../../Helpers/axiosinstance';
+import { useIsRequestPending } from '../../Hooks/useStatus';
 import {
   getCourseLectures,
   unlockNextLecture,
@@ -16,6 +18,7 @@ import { formatSecondsToMMSS } from '../../Utils';
 
 function LectureDetail() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const isLoading = useIsRequestPending('course', 'getCourseLectures');
   const [videoUrl, setVideoUrl] = useState('');
   const dispatch = useDispatch();
   const { lectureId, courseId } = useParams();
@@ -37,27 +40,17 @@ function LectureDetail() {
 
   const handleVideoEnd = () => {
     const currentLectureIndex = lectures?.courseContent?.findIndex(
-      (item) => item.id === lectureId
+      (item) => item.id === lectureId && !item.completed
     );
-
     if (currentLectureIndex !== -1) {
       const nextLecture = lectures?.courseContent[currentLectureIndex + 1];
-
       dispatch(
         unlockNextLecture({
           courseId,
           lectureId: nextLecture ? nextLecture?.id : null,
           preLectureId: lectureId,
         })
-      )
-        .unwrap()
-        .then(({ data }) => {
-          const { lectureId } = data;
-          if (lectureId) {
-            navigate(`/course/${courseId}/lectures/${lectureId}`);
-          }
-          setIsVideoLoaded(false);
-        });
+      );
     }
   };
 
@@ -75,6 +68,8 @@ function LectureDetail() {
       toast.error(error?.response?.data?.message);
     }
   };
+
+  if (isLoading) return <LoadingOverlay isLoading={isLoading} />;
 
   return (
     <div className="container mx-auto p-4">
@@ -113,7 +108,7 @@ function LectureDetail() {
                 </div>
               </div>
             )}
-            {isVideoLoaded && (
+            {isVideoLoaded && videoUrl && (
               <VideoPlayer
                 key={videoUrl}
                 videoUrl={videoUrl}
@@ -142,7 +137,7 @@ function LectureDetail() {
                     : 'bg-gray-100 hover:bg-gray-200'
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 w-full">
+                <div className="flex items-center justify-between gap-2 w-full relative">
                   <div>
                     <span className="font-medium text-sm text-gray-700 hover:text-gray-900">
                       {item.title}
@@ -154,8 +149,23 @@ function LectureDetail() {
                       </span>
                     </div>
                   </div>
-                  {item.completed && <FaCheckCircle size={15} color="green" />}
-                  {item.locked && <FaLock size={15} color="gray" />}
+                  {/* {item.completed && <FaCheckCircle size={15} color="green" />}
+                  {item.locked && <FaLock size={15} color="gray" />} */}
+
+                  {item.completed && (
+                    <FaCheckCircle
+                      size={12}
+                      color="green"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    />
+                  )}
+                  {item.locked && (
+                    <FaLock
+                      size={12}
+                      color="gray"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    />
+                  )}
                 </div>
               </li>
             ))}

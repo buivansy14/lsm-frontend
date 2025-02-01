@@ -31,7 +31,6 @@ function ForgetPassword() {
 
     // calling the api from auth slice
     const response = await dispatch(forgetPassword(data));
-    // console.log(response)
     if (response?.payload?.success) {
       setData({
         email: '',

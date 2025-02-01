@@ -26,7 +26,6 @@ const ActivateCoursePage = () => {
   };
 
   const confirmAction = () => {
-    console.log({ selectedCourse });
     if (!selectedUser) {
       toast.error('Vui lòng chọn người dùng trước!');
       return;
@@ -41,6 +40,7 @@ const ActivateCoursePage = () => {
         .unwrap()
         .then(() => {
           toast.success('Kích hoạt khóa học thành công!');
+          dispatch(getCoursesWithUsers());
         });
     } catch (error) {
       console.error(error);

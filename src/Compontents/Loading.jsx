@@ -6,7 +6,7 @@ export const LoadingButton = ({ isLoading, label }) => {
         isLoading
           ? 'bg-gray-400 cursor-not-allowed'
           : 'bg-yellow-600 hover:bg-yellow-500'
-      } py-2 font-semibold text-lg cursor-pointer transition-all ease-in-out duration-300 rounded-sm`}
+      } py-2 font-semibold text-lg cursor-pointer transition-all ease-in-out duration-300 rounded-sm px-2 text-white`}
       disabled={isLoading}
     >
       {isLoading ? (

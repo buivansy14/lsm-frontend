@@ -86,7 +86,6 @@ export const updateCourse = createAsyncThunk('/course/update', async (data) => {
     formData.append('description', data.description);
     formData.append('oldPrice', data.oldPrice);
     formData.append('price', data.price);
-    console.log({ data });
     // backend is not allowing change of thumbnail
     if (data.thumbnail) {
       formData.append('thumbnail', data.thumbnail);
@@ -110,7 +109,6 @@ export const updateCourse = createAsyncThunk('/course/update', async (data) => {
     const response = await res;
     return response.data;
   } catch (error) {
-    console.log(error);
     toast.error(error?.response?.data?.message);
   }
 });

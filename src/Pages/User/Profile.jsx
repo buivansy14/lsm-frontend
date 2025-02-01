@@ -9,34 +9,41 @@ function Profile() {
   return (
     <HomeLayout>
       <div className="min-h-[90vh] flex items-center justify-center">
-        <div className="my-10 flex flex-col gap-4 rounded-lg p-4 text-white w-[80vw] sm:w-96 shadow-[0_0_10px_black]">
+        <div className="my-10 flex flex-col gap-6 rounded-lg p-6 bg-gray-800 text-white shadow-lg w-full sm:w-96">
+          {/* Avatar */}
           <img
-            className="w-40 m-auto rounded-full border border-black"
+            className="w-40 h-40 m-auto rounded-full border-4 border-yellow-500 shadow-xl"
             src={userData?.avatar?.secure_url}
+            alt="User Avatar"
           />
 
-          <h3 className="text-xl font-semibold  text-center capitalize">
+          {/* Full Name */}
+          <h3 className="text-2xl font-semibold text-center capitalize">
             {userData?.fullName}
           </h3>
-          <div className="grid  grid-cols-2 ">
-            <p>Email: </p>
+
+          {/* Info */}
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <p className="font-medium">Email:</p>
             <p>{userData?.email}</p>
-            <p>Role: </p>
+            <p className="font-medium">Role:</p>
             <p>{userData?.role}</p>
           </div>
-          <div className="flex items-center justify-between gap-2 ">
+
+          {/* Actions */}
+          <div className="flex flex-col gap-4 mt-6">
             <Link
               to="/change-password"
-              className="w-1/2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out  text-center duration-300  rounded-md  font-semibold py-2 cursor-pointer"
+              className="bg-yellow-600 hover:bg-yellow-500 text-center py-3 rounded-md font-semibold transition-all ease-in-out duration-300"
             >
-              <button>Đổi mật khẩu</button>
+              Đổi mật khẩu
             </Link>
 
             <Link
               to="/user/editprofile"
-              className="w-1/2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300  text-center rounded-md   font-semibold py-2 cursor-pointer"
+              className="bg-yellow-600 hover:bg-yellow-500 text-center py-3 rounded-md font-semibold transition-all ease-in-out duration-300"
             >
-              <button>Chỉnh sửa thông tin</button>
+              Chỉnh sửa thông tin
             </Link>
           </div>
         </div>
@@ -44,4 +51,5 @@ function Profile() {
     </HomeLayout>
   );
 }
+
 export default Profile;

@@ -15,7 +15,7 @@ function Header({ isLoggedIn, handleLogout, fullName }) {
     <header className="bg-gray-800 text-white p-5">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">
-          EduPlatform
+          TechOnline
         </Link>
         <nav className="space-x-4 flex items-center">
           <Link to="/" className="hover:text-yellow-500">
@@ -23,9 +23,6 @@ function Header({ isLoggedIn, handleLogout, fullName }) {
           </Link>
           <Link to="/courses" className="hover:text-yellow-500">
             Khóa học
-          </Link>
-          <Link to="/about" className="hover:text-yellow-500">
-            Giới thiệu
           </Link>
           <Link to="/contact" className="hover:text-yellow-500">
             Liên hệ
@@ -66,7 +63,7 @@ function Header({ isLoggedIn, handleLogout, fullName }) {
                   </Link>
                   {isLoggedIn && role == 'ADMIN' && (
                     <Link
-                      to="/admin/deshboard"
+                      to="/admin/dashboard"
                       className="block px-4 py-2 hover:bg-gray-600"
                     >
                       Admin Dashboard

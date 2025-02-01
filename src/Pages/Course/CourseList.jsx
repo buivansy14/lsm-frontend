@@ -34,7 +34,7 @@ function CourseList() {
         );
       }
       return (
-        <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-16 mx-auto text-center mb-10 place-items-center">
+        <div className="flex flex-wrap justify-center items-center gap-16 mx-auto text-center mb-10">
           {[...inactiveCourses, ...activeCourses]?.map((element) => (
             <CourseCard key={element._id} data={element} />
           ))}
@@ -49,7 +49,7 @@ function CourseList() {
         );
       }
       return (
-        <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-16 mx-auto text-center mb-10 place-items-center">
+        <div className="flex flex-wrap justify-center items-center gap-16 mx-auto text-center mb-10">
           {courseData?.map((element) => (
             <CourseCard key={element._id} data={element} />
           ))}

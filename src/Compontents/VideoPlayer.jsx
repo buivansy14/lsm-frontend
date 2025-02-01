@@ -3,37 +3,44 @@ import videojs from 'video.js';
 
 const VideoPlayer = ({ videoUrl, onEnded }) => {
   const videoRef = useRef(null);
+  const playerRef = useRef(null);
 
   useEffect(() => {
-    let playerInstance;
-    console.log({ videoUrl });
+    if (!videoRef.current) return;
 
-    if (videoRef.current) {
-      // Nếu chưa có instance, khởi tạo
-      playerInstance = videojs(videoRef.current, {
-        autoplay: true,
-        controls: true,
-        preload: 'auto',
-        fluid: true,
-        fill: true,
-      });
+    // Initialize video.js player
+    playerRef.current = videojs(videoRef.current, {
+      autoplay: true,
+      controls: true,
+      preload: 'auto',
+      fluid: true,
+      fill: true,
+    });
 
-      // Lắng nghe sự kiện kết thúc
-      playerInstance.on('ended', onEnded);
-    }
-
-    // Cập nhật nguồn video mỗi khi `videoUrl` thay đổi
-    if (playerInstance && videoUrl) {
-      playerInstance.src({ type: 'application/x-mpegURL', src: videoUrl });
-      playerInstance.play(); // Tự động phát video mới
-    }
+    // Handle 'ended' event
+    playerRef.current.on('ended', () => {
+      onEnded();
+    });
 
     return () => {
-      if (playerInstance) {
-        playerInstance.dispose(); // Dọn dẹp instance khi unmount
+      if (playerRef.current) {
+        playerRef.current.dispose(); // Dispose player on cleanup
+        playerRef.current = null;
       }
     };
-  }, [videoUrl, onEnded]);
+  }, []);
+
+  useEffect(() => {
+    if (playerRef.current && videoUrl) {
+      playerRef.current.src({ type: 'application/x-mpegURL', src: videoUrl });
+
+      playerRef.current.one('canplay', () => {
+        playerRef.current.play().catch((error) => {
+          console.error('Error playing the video:', error);
+        });
+      });
+    }
+  }, [videoUrl]);
 
   return (
     <div data-vjs-player>
@@ -42,9 +49,7 @@ const VideoPlayer = ({ videoUrl, onEnded }) => {
         className="video-js vjs-default-skin"
         controls
         preload="auto"
-      >
-        <source src={videoUrl} type="application/x-mpegURL" />
-      </video>
+      />
     </div>
   );
 };

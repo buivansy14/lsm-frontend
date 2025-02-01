@@ -12,19 +12,19 @@ import CourseList from './Pages/Course/CourseList.jsx';
 import CreateCourse from './Pages/Course/CreateCourse.jsx';
 import EditCourse from './Pages/Course/EditCourse.jsx';
 import LectureDetail from './Pages/Course/LectureDetail.jsx';
+import AddCourseLectures from './Pages/Dashboard/AddLectures.jsx';
+import AdminDashboard from './Pages/Dashboard/AdminDashboard.jsx';
+import Displaylectures from './Pages/Dashboard/DisplayLectures.jsx';
 import Denied from './Pages/Denied.jsx';
-import AddCourseLectures from './Pages/Deshboard/AddLectures.jsx';
-import AdminDeshboard from './Pages/Deshboard/AdminDeshboard.jsx';
-import Displaylectures from './Pages/Deshboard/DisplayLectures.jsx';
 import HomePage from './Pages/HomePage.jsx';
+import LandingPage from './Pages/LandingPage.jsx';
 import Login from './Pages/Login.jsx';
 import NotFound from './Pages/NotFound.jsx';
 import ChangePassword from './Pages/Password/ChangePassword.jsx';
 import ForgetPassword from './Pages/Password/ForgetPassword.jsx';
 import ResetPassword from './Pages/Password/ResetPassword.jsx';
-import CheckoutPage from './Pages/Payment/Checkout.jsx';
-import CheckoutFailure from './Pages/Payment/CheckoutFailure.jsx';
-import CheckoutSuccess from './Pages/Payment/CheckoutSuccess.jsx';
+import PaymentPage from './Pages/PaymentPage.jsx';
+import PaymentSuccessPage from './Pages/PaymentSuccessPage.jsx';
 import Signup from './Pages/Signup.jsx';
 import EditProfile from './Pages/User/EditProfile.jsx';
 import Profile from './Pages/User/Profile.jsx';
@@ -38,6 +38,11 @@ function App() {
         <Route path="/courses" element={<CourseList />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/denied" element={<Denied />}></Route>
+        <Route
+          path="/gioi-thieu-khoa-hoc/:courseId"
+          element={<LandingPage />}
+        ></Route>
+
         <Route
           path="/course/description"
           element={<CourseDescripition />}
@@ -55,7 +60,7 @@ function App() {
             path="/course/add-lecture/:courseId"
             element={<AddCourseLectures />}
           ></Route>
-          <Route path="/admin/deshboard" element={<AdminDeshboard />}></Route>
+          <Route path="/admin/dashboard" element={<AdminDashboard />}></Route>
           <Route
             path="/admin/course-progress"
             element={<ActivateCoursePage />}
@@ -63,12 +68,10 @@ function App() {
         </Route>
 
         <Route element={<RequireAuth allowedRoles={['ADMIN', 'USER']} />}>
+          <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/user/profile" element={<Profile />}></Route>
           <Route path="/user/editprofile" element={<EditProfile />}></Route>
           <Route path="/change-password" element={<ChangePassword />}></Route>
-          <Route path="/checkout" element={<CheckoutPage />}></Route>
-          <Route path="/checkout/success" element={<CheckoutSuccess />}></Route>
-          <Route path="/checkout/fail" element={<CheckoutFailure />}></Route>
           <Route
             path="/course/displaylecture"
             element={<Displaylectures />}
@@ -78,6 +81,10 @@ function App() {
             path="/course/:courseId/lectures/:lectureId"
             element={<LectureDetail />}
           ></Route>
+          <Route
+            path="/thanh-toan-thanh-cong"
+            element={<PaymentSuccessPage />}
+          ></Route>{' '}
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>

@@ -4,11 +4,14 @@ import toast from 'react-hot-toast';
 import axiosInstance from '../../Helpers/axiosinstance';
 
 const initialState = {
-  lectures: {},
+  lectures: {
+    completedLectures: 0,
+    totalLectures: 0,
+  },
 };
 
 export const getCourseLectures = createAsyncThunk(
-  '/course/lecture/get',
+  'course/getCourseLectures',
   async ({ courseId, lectureId }) => {
     try {
       const response = axiosInstance.get(
@@ -93,6 +96,7 @@ const lectureSlice = createSlice({
       })
       .addCase(unlockNextLecture.fulfilled, (state, action) => {
         const preLectureId = action?.payload?.data?.preLectureId;
+        const lectureId = action?.payload?.data?.lectureId;
 
         if (
           !state.lectures?.courseContent ||
@@ -105,10 +109,19 @@ const lectureSlice = createSlice({
         const index = state.lectures.courseContent.findIndex(
           (item) => item.id === preLectureId
         );
-        console.log({ index });
+
+        const indexLectureNext = state.lectures.courseContent.findIndex(
+          (item) => item.id === lectureId
+        );
 
         if (index !== -1) {
           state.lectures.courseContent[index].completed = true;
+          state.lectures.completedLectures += 1;
+        } else {
+          console.warn(`Lecture with ID ${preLectureId} not found.`);
+        }
+        if (indexLectureNext !== -1) {
+          state.lectures.courseContent[indexLectureNext].locked = false;
         } else {
           console.warn(`Lecture with ID ${preLectureId} not found.`);
         }

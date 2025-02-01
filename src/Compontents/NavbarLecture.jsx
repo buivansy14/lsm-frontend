@@ -10,7 +10,7 @@ const NavbarLecture = ({ title, completedLessons, totalLessons }) => {
     <div className="fixed top-0 left-0 w-full bg-[#1d232a] shadow-inner z-50 flex items-center px-4 py-3 justify-between">
       <div className="flex items-center">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/courses')}
           className="flex items-center text-blue-600 hover:text-blue-800 font-semibold mr-4"
         >
           <FiArrowLeft size={20} className="mr-2" />
