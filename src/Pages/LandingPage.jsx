@@ -32,7 +32,6 @@ const LandingPage = () => {
   }, [courseId]);
 
   const getInfoDetail = async (courseId) => {
-    if (!isLoggedIn) navigate('/login');
     try {
       const response = await axiosInstance.get(
         `/course/getInfoLectures/${removeDashes(courseId)}`
@@ -45,6 +44,8 @@ const LandingPage = () => {
 
   const handleOrder = async (event) => {
     event.preventDefault();
+    if (!isLoggedIn) return navigate('/login');
+
     try {
       const response = await axiosInstance.post('/transaction/create-qr', {
         message: 'QR',
@@ -123,7 +124,7 @@ const LandingPage = () => {
             </div>
             <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-2xl font-bold text-blue-700 mb-2">
-                Truy cập tài liệu trọn đời
+                Học online
               </h3>
               <p className="text-gray-600">Học mọi lúc, mọi nơi.</p>
             </div>

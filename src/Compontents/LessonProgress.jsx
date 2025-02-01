@@ -12,7 +12,7 @@ const LessonProgress = ({ completedLessons, totalLessons }) => {
       ></div>
       <span
         className={`absolute inset-0 flex items-center justify-center text-xs font-medium ${
-          progressPercentage > 0 ? 'text-white' : 'text-black'
+          progressPercentage > 0 ? 'text-blue-800' : 'text-black'
         }`}
       >
         {completedLessons}/{totalLessons} bài học ({progressPercentage}%)

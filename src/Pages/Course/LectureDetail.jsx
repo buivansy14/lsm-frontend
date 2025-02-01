@@ -156,14 +156,14 @@ function LectureDetail() {
                     <FaCheckCircle
                       size={12}
                       color="green"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      className="absolute right-0 top-1/2 transform -translate-y-1/2"
                     />
                   )}
                   {item.locked && (
                     <FaLock
                       size={12}
                       color="gray"
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      className="absolute right-0 top-1/2 transform -translate-y-1/2"
                     />
                   )}
                 </div>

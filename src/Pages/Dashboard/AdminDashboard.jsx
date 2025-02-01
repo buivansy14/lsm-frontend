@@ -209,9 +209,7 @@ function AdminDashboard() {
                         <button
                           className="bg-green-500 hover:bg-green-600 transition-all ease-in-out duration-300 text-xl py-2 px-3 rounded-md font-bold"
                           onClick={() =>
-                            navigate('/course/displaylecture', {
-                              state: { ...course },
-                            })
+                            navigate(`/admin/course/${course?._id}`)
                           }
                         >
                           <BsCollectionPlayFill />

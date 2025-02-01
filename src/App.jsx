@@ -14,7 +14,7 @@ import EditCourse from './Pages/Course/EditCourse.jsx';
 import LectureDetail from './Pages/Course/LectureDetail.jsx';
 import AddCourseLectures from './Pages/Dashboard/AddLectures.jsx';
 import AdminDashboard from './Pages/Dashboard/AdminDashboard.jsx';
-import Displaylectures from './Pages/Dashboard/DisplayLectures.jsx';
+import CourseManagement from './Pages/Dashboard/CourseManagement.jsx';
 import Denied from './Pages/Denied.jsx';
 import HomePage from './Pages/HomePage.jsx';
 import LandingPage from './Pages/LandingPage.jsx';
@@ -65,6 +65,10 @@ function App() {
             path="/admin/course-progress"
             element={<ActivateCoursePage />}
           ></Route>
+          <Route
+            path="/admin/course/:id"
+            element={<CourseManagement />}
+          ></Route>
         </Route>
 
         <Route element={<RequireAuth allowedRoles={['ADMIN', 'USER']} />}>
@@ -72,10 +76,6 @@ function App() {
           <Route path="/user/profile" element={<Profile />}></Route>
           <Route path="/user/editprofile" element={<EditProfile />}></Route>
           <Route path="/change-password" element={<ChangePassword />}></Route>
-          <Route
-            path="/course/displaylecture"
-            element={<Displaylectures />}
-          ></Route>
           <Route path="/course/edit" element={<EditCourse />}></Route>
           <Route
             path="/course/:courseId/lectures/:lectureId"
