@@ -134,21 +134,25 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(creatAccount.fulfilled, (state, action) => {
-        localStorage.setItem('data', JSON.stringify(action?.payload?.user));
-        localStorage.setItem('isLoggedIn', true);
-        localStorage.setItem('role', action?.payload?.user?.role);
-        state.data = action?.payload?.user;
-        state.role = action?.payload?.user?.role;
-        state.isLoggedIn = true;
+        if (action.payload) {
+          localStorage.setItem('data', JSON.stringify(action?.payload?.user));
+          localStorage.setItem('isLoggedIn', true);
+          localStorage.setItem('role', action?.payload?.user?.role);
+          state.data = action?.payload?.user;
+          state.role = action?.payload?.user?.role;
+          state.isLoggedIn = true;
+        }
       })
       .addCase(login.fulfilled, (state, action) => {
-        localStorage.setItem('data', JSON.stringify(action?.payload?.user));
-        localStorage.setItem('isLoggedIn', true);
-        localStorage.setItem('role', action?.payload?.user?.role);
-        state.data = action?.payload?.user;
-        state.role = action?.payload?.user?.role;
-        {
-          state.role && (state.isLoggedIn = true);
+        if (action.payload) {
+          localStorage.setItem('data', JSON.stringify(action?.payload?.user));
+          localStorage.setItem('isLoggedIn', true);
+          localStorage.setItem('role', action?.payload?.user?.role);
+          state.data = action?.payload?.user;
+          state.role = action?.payload?.user?.role;
+          {
+            state.role && (state.isLoggedIn = true);
+          }
         }
       })
       .addCase(logout.fulfilled, (state) => {

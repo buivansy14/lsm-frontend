@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function Header({ isLoggedIn, handleLogout, fullName }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const role = useSelector((state) => state?.auth?.role);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside); // Lắng nghe sự kiện click ngoài
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside); // Cleanup
+    };
+  }, []);
 
   return (
     <header className="bg-gray-800 text-white p-5">
@@ -44,7 +58,7 @@ function Header({ isLoggedIn, handleLogout, fullName }) {
           )}
 
           {isLoggedIn && (
-            <div className="relative z-10">
+            <div className="relative z-10" ref={dropdownRef}>
               <button
                 className="flex items-center space-x-2"
                 onClick={toggleDropdown}
@@ -67,6 +81,22 @@ function Header({ isLoggedIn, handleLogout, fullName }) {
                       className="block px-4 py-2 hover:bg-gray-600"
                     >
                       Admin Dashboard
+                    </Link>
+                  )}
+                  {isLoggedIn && role == 'ADMIN' && (
+                    <Link
+                      to="/admin/quan-ly-nguoi-dung"
+                      className="block px-4 py-2 hover:bg-gray-600"
+                    >
+                      Quản lý người dùng
+                    </Link>
+                  )}
+                  {isLoggedIn && role == 'ADMIN' && (
+                    <Link
+                      to="/admin/quan-ly-giao-dich"
+                      className="block px-4 py-2 hover:bg-gray-600"
+                    >
+                      Quản lý giao dịch
                     </Link>
                   )}
                   {isLoggedIn && role === 'ADMIN' && (

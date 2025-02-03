@@ -14,9 +14,9 @@ function HomePage() {
             <span className=" text-yellow-500 font-bold"> tốt nhất</span>
           </h1>
           <p className=" text-lg sm:text-xl text-gray-200">
-            Chúng tôi có một thư viện khóa học lớn được giảng dạy bởi các giảng
-            viên có trình độ cao và trình độ chuyên môn với mức chi phí rất phải
-            chăng.
+            Chúng tôi cung cấp một bộ sưu tập khóa học phong phú, được giảng dạy
+            bởi các chuyên gia giàu kinh nghiệm, với mức chi phí hợp lý, giúp
+            bạn dễ dàng tiếp cận kiến thức chất lượng cao.
           </p>
           <div className=" space-x-6">
             <Link to="/courses">

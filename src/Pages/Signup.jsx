@@ -49,26 +49,26 @@ function Signup() {
   async function createNewAccount(event) {
     event.preventDefault();
     if (!signupData.email || !signupData.fullName || !signupData.password) {
-      toast.error('Please fill all the details ');
+      toast.error('Vui lòng điền đầy đủ thông tin');
       return;
     }
 
     //checking name filed
     if (signupData.fullName.length < 5) {
-      toast.error('Name should be atleast of 5characters ');
+      toast.error('Tên phải có ít nhất 5 ký tự');
       return;
     }
 
     //email vaildtaion
     if (!isEmail(signupData.email)) {
-      toast.error('Invaild email id  ');
+      toast.error('ID email không hợp lệ');
       return;
     }
 
     //checking password
     if (!isPassword(signupData.password)) {
       toast.error(
-        'Password should be 6 - 16 character long with atleast a number and special character'
+        'Mật khẩu phải dài từ 6 - 16 ký tự với ít nhất một số và ký tự đặc biệt'
       );
       return;
     }

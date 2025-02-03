@@ -1,4 +1,4 @@
-import { BsFacebook, BsInstagram, BsLinkedin, BsTwitter } from 'react-icons/bs';
+import { BsFacebook, BsYoutube } from 'react-icons/bs';
 
 function Footer() {
   return (
@@ -13,17 +13,21 @@ function Footer() {
           </p>
         </section>
         <section className="flex  items-center justify-center gap-5 text-2xl text-white">
-          <a className=" hover:text-yellow-500 transition-all ease-in-out duration-300">
+          <a
+            className="hover:text-yellow-500 transition-all ease-in-out duration-300"
+            href="https://www.facebook.com/groups/1322148082249707"
+            target="_blank"
+            rel="noreferrer"
+          >
             <BsFacebook />
           </a>
-          <a className=" hover:text-yellow-500 transition-all ease-in-out duration-300">
-            <BsInstagram />
-          </a>
-          <a className=" hover:text-yellow-500 transition-all ease-in-out duration-300">
-            <BsLinkedin />
-          </a>
-          <a className=" hover:text-yellow-500 transition-all ease-in-out duration-300">
-            <BsTwitter />
+          <a
+            className="hover:text-yellow-500 transition-all ease-in-out duration-300"
+            href="https://www.youtube.com/@TEKLAOPENAPIVIETNAM"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <BsYoutube />
           </a>
         </section>
       </footer>

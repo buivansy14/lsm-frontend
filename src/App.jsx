@@ -5,6 +5,8 @@ import { Route, Routes } from 'react-router-dom';
 import RequireAuth from './Compontents/Auth/RequireAuth.jsx';
 import { LoadingProvider } from './Context/LoadingProvider.jsx';
 import AboutUs from './Pages/AboutUs.jsx';
+import TransactionManagement from './Pages/Admin/TransactionManagement.jsx';
+import UserManagement from './Pages/Admin/UserManagement.jsx';
 import Contact from './Pages/Contact.jsx';
 import ActivateCoursePage from './Pages/Course/ActivateCoursePage.jsx';
 import CourseDescripition from './Pages/Course/CourseDescription.jsx';
@@ -61,6 +63,14 @@ function App() {
             element={<AddCourseLectures />}
           ></Route>
           <Route path="/admin/dashboard" element={<AdminDashboard />}></Route>
+          <Route
+            path="/admin/quan-ly-nguoi-dung"
+            element={<UserManagement />}
+          ></Route>
+          <Route
+            path="/admin/quan-ly-giao-dich"
+            element={<TransactionManagement />}
+          ></Route>
           <Route
             path="/admin/course-progress"
             element={<ActivateCoursePage />}
