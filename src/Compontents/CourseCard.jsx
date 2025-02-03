@@ -52,7 +52,7 @@ function CourseCard({ data }) {
         <div className="flex justify-between">
           <p className="flex items-center text-sm text-gray-600">
             <FaUsers className="mr-1 text-gray-300" size={18} />
-            {data?.totalStudents || 0} học viên
+            {data?.totalStudents + 20 || 0} học viên
           </p>
 
           <p className="flex items-center text-sm font-medium text-gray-600">
