@@ -31,7 +31,7 @@ const Modal = ({ isOpen, onClose, isLoading, onSubmit, info }) => {
                 thông qua việc am hiểu sâu sắc về Tekla Open API.
               </p>
 
-              <h3 className="font-semibold text-lg mb-2">
+              {/* <h3 className="font-semibold text-lg mb-2">
                 Bạn nhận được gì từ khóa học này?
               </h3>
               <ul className="list-disc pl-5 space-y-2 text-gray-600">
@@ -55,7 +55,7 @@ const Modal = ({ isOpen, onClose, isLoading, onSubmit, info }) => {
                 <li>
                   Đầu tư xứng đáng với những kỹ năng bạn nhận được từ khóa học!
                 </li>
-              </ul>
+              </ul> */}
             </div>
 
             {/* Cột bên phải */}

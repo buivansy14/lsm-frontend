@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaCheckCircle, FaLock } from 'react-icons/fa';
 import { RxVideo } from 'react-icons/rx';
@@ -17,6 +17,10 @@ import {
 import { formatSecondsToMMSS } from '../../Utils';
 
 function LectureDetail() {
+  const activeLectureRef = useRef(null);
+  const sidebarRef = useRef(null);
+  const scrollPosition = useRef(0);
+
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const isLoading = useIsRequestPending('course', 'getCourseLectures');
   const [videoUrl, setVideoUrl] = useState('');
@@ -27,12 +31,39 @@ function LectureDetail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getCourseLectures({ courseId, lectureId }));
+    dispatch(getCourseLectures({ courseId, lectureId })).then(() => {
+      // Khôi phục lại vị trí cuộn sau khi load xong
+      if (sidebarRef.current) {
+        sidebarRef.current.scrollTop = scrollPosition.current;
+      }
+    });
+  }, [lectureId]);
+
+  useEffect(() => {
+    if (activeLectureRef.current && sidebarRef.current) {
+      const activeItem = activeLectureRef.current;
+      const container = sidebarRef.current;
+
+      const itemTop = activeItem.offsetTop;
+      const itemBottom = itemTop + activeItem.offsetHeight;
+      const containerTop = container.scrollTop; // Vị trí cuộn hiện tại của container
+      const containerBottom = containerTop + container.clientHeight; // Bottom của vùng hiển thị
+
+      // Chỉ cuộn khi bài học bị ẩn trên hoặc dưới vùng nhìn thấy
+      if (itemTop < containerTop) {
+        container.scrollTop = itemTop - 20; // Cuộn lên trên (thêm margin nhỏ)
+      } else if (itemBottom > containerBottom) {
+        container.scrollTop = itemBottom - container.clientHeight + 20; // Cuộn xuống dưới (thêm margin nhỏ)
+      }
+    }
   }, [lectureId]);
 
   const onNavigate = (item) => {
     if (item.locked) {
       return;
+    }
+    if (sidebarRef.current) {
+      scrollPosition.current = sidebarRef.current.scrollTop;
     }
     setIsVideoLoaded(false);
     navigate(`/course/${courseId}/lectures/${item.id}`);
@@ -122,13 +153,17 @@ function LectureDetail() {
         </div>
 
         {/* Fixed Sidebar */}
-        <div className="lg:w-1/4 mt-6 lg:mt-0 lg:pl-8 sticky top-4 h-[80vh] overflow-y-auto">
+        <div
+          className="lg:w-1/4 mt-6 lg:mt-0 lg:pl-8 sticky top-4 h-[80vh] overflow-y-auto"
+          ref={sidebarRef}
+        >
           <h2 className="font-semibold text-lg mb-4">Nội dung khóa học</h2>
           <ul className="space-y-2">
             {lectures?.courseContent?.map((item, index) => (
               <li
                 onClick={() => onNavigate(item)}
                 key={index}
+                ref={item.id === lectureId ? activeLectureRef : null}
                 className={`cursor-pointer flex items-center justify-between p-3 rounded-md shadow-sm transition-transform duration-300 ${
                   item.id === lectureId
                     ? 'bg-blue-200 hover:bg-blue-200' // Highlight the active lecture

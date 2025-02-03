@@ -98,7 +98,7 @@ const CourseManagement = () => {
                     <h4
                       className={`text-lg ${
                         selectedLessonId === lesson._id
-                          ? 'text-white'
+                          ? 'text-blue-700'
                           : 'text-gray-700'
                       }`}
                     >

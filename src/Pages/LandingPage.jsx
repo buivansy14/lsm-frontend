@@ -154,13 +154,15 @@ const LandingPage = () => {
               Chương trình học
             </h2>
             <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courseInfo?.lectures?.map((course, index) => (
-                <li className="bg-gray-100 p-6 rounded shadow" key={index}>
-                  <p className="text-lg font-semibold text-gray-700">
-                    {course?.title}
-                  </p>
-                </li>
-              ))}
+              {courseInfo?.lectures
+                ?.sort((a, b) => a.orderDisplay - b.orderDisplay)
+                .map((course, index) => (
+                  <li className="bg-gray-100 p-6 rounded shadow" key={index}>
+                    <p className="text-lg font-semibold text-gray-700">
+                      {course?.title}
+                    </p>
+                  </li>
+                ))}
             </ul>
           </div>
         </section>
