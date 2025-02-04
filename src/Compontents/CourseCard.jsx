@@ -1,7 +1,7 @@
-import { FaClock, FaUsers } from 'react-icons/fa';
+import { FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-import { convertSecondsToDuration, insertDashEveryTwoChars } from '../Utils';
+import { insertDashEveryTwoChars } from '../Utils';
 
 function CourseCard({ data }) {
   const navigate = useNavigate();
@@ -55,10 +55,10 @@ function CourseCard({ data }) {
             {data?.totalStudents + 20 || 0} học viên
           </p>
 
-          <p className="flex items-center text-sm font-medium text-gray-600">
+          {/* <p className="flex items-center text-sm font-medium text-gray-600">
             <FaClock className="mr-1 text-gray-300" size={18} />
             {convertSecondsToDuration(data?.totalDuration)}
-          </p>
+          </p> */}
         </div>
         <div className="flex items-center space-x-2">
           {data?.oldPrice && (
