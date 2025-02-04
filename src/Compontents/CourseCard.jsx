@@ -15,7 +15,7 @@ function CourseCard({ data }) {
 
   return (
     <div
-      className={`text-white w-[320px] h-[365px] shadow-lg rounded-xl cursor-pointer group overflow-hidden 
+      className={`text-white w-[450px] shadow-lg rounded-xl cursor-pointer group overflow-hidden 
       bg-[#f7f7f7] transition-all ease-in-out duration-300 relative`}
     >
       {/* Ảnh thumbnail */}
@@ -38,13 +38,13 @@ function CourseCard({ data }) {
           {data?.title}
         </h2>
         <p
-          className="text-sm text-start text-gray-600 h-[40px] overflow-hidden text-ellipsis"
-          style={{
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            whiteSpace: 'normal',
-          }}
+          className="text-sm text-start text-gray-600 overflow-hidden text-ellipsis"
+          // style={{
+          //   display: '-webkit-box',
+          //   WebkitLineClamp: 2,
+          //   WebkitBoxOrient: 'vertical',
+          //   whiteSpace: 'normal',
+          // }}
         >
           {data?.description}
         </p>
@@ -73,7 +73,7 @@ function CourseCard({ data }) {
       </div>
 
       {!data?.isActive && (
-        <div className="absolute w-full text-white text-sm flex justify-between px-4">
+        <div className="absolute text-white text-sm flex gap-2 px-4  bottom-[16px] right-[10px]">
           <div className="bg-red-400 py-1 px-4 rounded-md">Chưa kích hoạt</div>
           <div
             className="bg-yellow-600 py-1 px-4 rounded-md"
@@ -90,7 +90,7 @@ function CourseCard({ data }) {
       {data?.isActive && (
         <div
           onClick={onNavigate}
-          className="absolute left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-sm py-1 px-4 rounded-md"
+          className="absolute transform bottom-[16px] right-[10px] bg-red-600 text-white text-sm rounded-md p-2"
         >
           Học ngay
         </div>
