@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import LoadingOverlay from '../../Compontents/LoadingOverlay';
 import NavbarLecture from '../../Compontents/NavbarLecture';
 import VideoPlayer from '../../Compontents/VideoPlayer';
+import YouTubePlayer from '../../Compontents/YouTubePlayer';
 import axiosInstance from '../../Helpers/axiosinstance';
 import { useIsRequestPending } from '../../Hooks/useStatus';
 import {
@@ -32,7 +33,6 @@ function LectureDetail() {
 
   useEffect(() => {
     dispatch(getCourseLectures({ courseId, lectureId })).then(() => {
-      // Khôi phục lại vị trí cuộn sau khi load xong
       if (sidebarRef.current) {
         sidebarRef.current.scrollTop = scrollPosition.current;
       }
@@ -113,7 +113,7 @@ function LectureDetail() {
         {/* Video Section */}
         <div className="lg:w-3/4">
           <div className="relative w-full h-[80vh] bg-black">
-            {!isVideoLoaded && (
+            {!isVideoLoaded && lectures?.uploadType !== 'link' && (
               <div className="w-full h-full cursor-pointer flex justify-center items-center bg-black group">
                 <div
                   className="w-[90%] h-[90%] z-10"
@@ -139,16 +139,23 @@ function LectureDetail() {
                 </div>
               </div>
             )}
-            {isVideoLoaded && videoUrl && (
+            {lectures?.uploadType !== 'link' && isVideoLoaded && videoUrl && (
               <VideoPlayer
                 key={videoUrl}
                 videoUrl={videoUrl}
                 onEnded={handleVideoEnd}
               />
             )}
+            {lectures?.uploadType === 'link' && (
+              <YouTubePlayer
+                key={videoUrl}
+                videoUrl={lectures?.videoUrl}
+                onEnded={handleVideoEnd}
+              />
+            )}
           </div>
 
-          <h2 className="mt-4 text-2xl font-semibold">{lectures?.title}</h2>
+          <h2 className="mt-6 text-2xl font-semibold">{lectures?.title}</h2>
           <p className="text-white mt-2">{lectures?.description}</p>
         </div>
 
@@ -164,28 +171,35 @@ function LectureDetail() {
                 onClick={() => onNavigate(item)}
                 key={index}
                 ref={item.id === lectureId ? activeLectureRef : null}
-                className={`cursor-pointer flex items-center justify-between p-3 rounded-md shadow-sm transition-transform duration-300 ${
+                className={`cursor-pointer flex items-center justify-between p-3 rounded-md shadow-sm transition-transform duration-300 w-[90%] ${
                   item.id === lectureId
-                    ? 'bg-blue-200 hover:bg-blue-200' // Highlight the active lecture
+                    ? 'bg-blue-200 hover:bg-blue-200'
                     : item.locked
                     ? 'bg-gray-300 cursor-not-allowed'
                     : 'bg-gray-100 hover:bg-gray-200'
                 }`}
               >
                 <div className="flex items-center justify-between gap-2 w-full relative">
-                  <div>
-                    <span className="font-medium text-sm text-gray-700 hover:text-gray-900">
+                  <div className="flex-1 overflow-hidden">
+                    <span
+                      className="font-medium text-sm text-gray-700 hover:text-gray-900 w-[95%] line-clamp-2 block"
+                      style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        whiteSpace: 'normal',
+                      }}
+                      title={item.title}
+                    >
                       {item.title}
                     </span>
                     <div className="flex items-center gap-2">
-                      <RxVideo color="red" />{' '}
+                      <RxVideo color="red" />
                       <span className="text-gray-700 text-sm">
                         {formatSecondsToMMSS(item.duration)}
                       </span>
                     </div>
                   </div>
-                  {/* {item.completed && <FaCheckCircle size={15} color="green" />}
-                  {item.locked && <FaLock size={15} color="gray" />} */}
 
                   {item.completed && (
                     <FaCheckCircle

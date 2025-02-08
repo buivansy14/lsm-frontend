@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import toast from 'react-hot-toast';
 
 import axiosInstance from '../../Helpers/axiosinstance';
+import { convertTimeToSeconds } from '../../Utils';
 
 const initialState = {
   lectures: {
@@ -26,14 +27,21 @@ export const getCourseLectures = createAsyncThunk(
 
 export const addCourseLectures = createAsyncThunk(
   'course/addCourseLectures',
-  async (data) => {
+  async ({ userInput, uploadType }) => {
     try {
       const fromData = new FormData();
-      fromData.append('lecture', data.lecture);
-      fromData.append('title', data.title);
-      fromData.append('description', data.description);
+      fromData.append('lecture', userInput.lecture);
+      fromData.append('title', userInput.title);
+      fromData.append('description', userInput.description);
+      fromData.append('uploadType', uploadType);
 
-      const response = axiosInstance.post(`/course/${data.id}`, fromData);
+      console.log({ uploadType });
+
+      if (uploadType === 'link') {
+        fromData.append('videoSrc', userInput?.videoSrc);
+        fromData.append('duration', convertTimeToSeconds(userInput?.duration));
+      }
+      const response = axiosInstance.post(`/course/${userInput.id}`, fromData);
       toast.promise(response, {
         loading: 'Adding course lecture',
         success: 'Lectures added successfully',
