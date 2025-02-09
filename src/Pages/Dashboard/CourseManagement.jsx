@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import axiosInstance from '../../Helpers/axiosinstance';
 import HomeLayout from '../../Layouts/HomeLayout';
+import { convertTimeToSeconds, formatTime } from '../../Utils';
 
 const CourseManagement = () => {
   const { id } = useParams();
@@ -15,6 +16,8 @@ const CourseManagement = () => {
     title: '',
     description: '',
     orderDisplay: 1,
+    linkVideo: '',
+    duration: '',
   });
 
   useEffect(() => {
@@ -40,6 +43,8 @@ const CourseManagement = () => {
       title: lesson.title,
       description: lesson.description,
       orderDisplay: lesson.orderDisplay,
+      duration: formatTime(lesson?.lecture?.duration),
+      linkVideo: lesson?.lecture?.original_path,
     });
   };
 
@@ -61,11 +66,14 @@ const CourseManagement = () => {
     try {
       const res = await axiosInstance.put(
         `/course/${id}/lesson/${selectedLesson._id}`,
-        { ...formData, orderDisplay: Number(formData?.orderDisplay) }
+        {
+          ...formData,
+          orderDisplay: Number(formData?.orderDisplay),
+          duration: convertTimeToSeconds(formData?.duration),
+        }
       );
       if (res.data) {
         toast.success('Cập nhật bài học thành công');
-        setSelectedLesson(null);
         getCourseInfo(id);
       }
     } catch (error) {
@@ -84,29 +92,31 @@ const CourseManagement = () => {
           <h2 className="text-3xl text-white">{course.title}</h2>
 
           <h3 className="mt-6 text-2xl font-semibold">Bài Học</h3>
-          <ul className="space-y-4 mt-4 sticky top-4 h-[60vh] overflow-y-auto">
+          <ul className="space-y-4 mt-4 sticky top-4 h-[70vh] overflow-y-auto">
             {course.lectures && course.lectures.length > 0 ? (
-              course.lectures.map((lesson, index) => (
-                <li
-                  onClick={() => handleEditClick(lesson)}
-                  key={index}
-                  className={`bg-white p-4 rounded-lg shadow-md flex justify-between items-center cursor-pointer ${
-                    selectedLessonId === lesson._id ? 'bg-blue-400' : ''
-                  }`}
-                >
-                  <div>
-                    <h4
-                      className={`text-lg ${
-                        selectedLessonId === lesson._id
-                          ? 'text-blue-700'
-                          : 'text-gray-700'
-                      }`}
-                    >
-                      {lesson.title}
-                    </h4>
-                  </div>
-                </li>
-              ))
+              course.lectures
+                .sort((a, b) => a.orderDisplay - b.orderDisplay)
+                .map((lesson, index) => (
+                  <li
+                    onClick={() => handleEditClick(lesson)}
+                    key={index}
+                    className={`bg-white p-4 rounded-lg shadow-md flex justify-between items-center cursor-pointer ${
+                      selectedLessonId === lesson._id ? 'bg-blue-400' : ''
+                    }`}
+                  >
+                    <div>
+                      <h4
+                        className={`text-lg ${
+                          selectedLessonId === lesson._id
+                            ? 'text-blue-700'
+                            : 'text-gray-700'
+                        }`}
+                      >
+                        {lesson.title}
+                      </h4>
+                    </div>
+                  </li>
+                ))
             ) : (
               <p className="text-gray-500">Chưa có bài học nào.</p>
             )}
@@ -115,7 +125,7 @@ const CourseManagement = () => {
 
         {/* Sidebar: Chỉnh sửa bài học */}
         {selectedLesson && (
-          <div className="w-1/3 bg-gray-700 p-4 rounded-lg shadow-md">
+          <div className="w-2/5 bg-gray-700 p-4 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4 text-white">
               Chỉnh sửa bài học
             </h3>
@@ -151,6 +161,35 @@ const CourseManagement = () => {
                   onChange={handleInputChange}
                 />
               </div>
+
+              {selectedLesson?.lecture?.uploadType === 'link' && (
+                <>
+                  <div>
+                    <label className="block text-lg text-white">
+                      Link Video
+                    </label>
+                    <input
+                      type="text"
+                      name="linkVideo"
+                      className="bg-transparent px-3 py-1 border w-full rounded-md text-gray-100"
+                      value={formData.linkVideo}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-lg text-white">
+                      Thời lượng (00:00)
+                    </label>
+                    <input
+                      type="text"
+                      name="duration"
+                      className="bg-transparent px-3 py-1 border w-full rounded-md text-gray-100"
+                      value={formData.duration}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </>
+              )}
 
               <button
                 type="submit"
