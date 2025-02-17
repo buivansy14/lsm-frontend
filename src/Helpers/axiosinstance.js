@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://api.course.hoclaptrinh.tokyo/api/v1';
+const BASE_URL = 'https://api.course.techonline.edu.vn/api/v1';
 // const BASE_URL = 'http://localhost:8080/api/v1';
 
 const axiosInstance = axios.create({
