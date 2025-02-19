@@ -43,8 +43,8 @@ const CourseManagement = () => {
       title: lesson.title,
       description: lesson.description,
       orderDisplay: lesson.orderDisplay,
-      duration: formatTime(lesson?.lecture?.duration),
-      linkVideo: lesson?.lecture?.original_path,
+      duration: formatTime(Math.ceil(lesson?.lecture?.duration)),
+      linkVideo: lesson?.lecture?.original_path || '',
     });
   };
 
@@ -70,6 +70,7 @@ const CourseManagement = () => {
           ...formData,
           orderDisplay: Number(formData?.orderDisplay),
           duration: convertTimeToSeconds(formData?.duration),
+          uploadType: 'link',
         }
       );
       if (res.data) {
@@ -162,34 +163,28 @@ const CourseManagement = () => {
                 />
               </div>
 
-              {selectedLesson?.lecture?.uploadType === 'link' && (
-                <>
-                  <div>
-                    <label className="block text-lg text-white">
-                      Link Video
-                    </label>
-                    <input
-                      type="text"
-                      name="linkVideo"
-                      className="bg-transparent px-3 py-1 border w-full rounded-md text-gray-100"
-                      value={formData.linkVideo}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-lg text-white">
-                      Thời lượng (00:00)
-                    </label>
-                    <input
-                      type="text"
-                      name="duration"
-                      className="bg-transparent px-3 py-1 border w-full rounded-md text-gray-100"
-                      value={formData.duration}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </>
-              )}
+              <div>
+                <label className="block text-lg text-white">Link Video</label>
+                <input
+                  type="text"
+                  name="linkVideo"
+                  className="bg-transparent px-3 py-1 border w-full rounded-md text-gray-100"
+                  value={formData.linkVideo}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label className="block text-lg text-white">
+                  Thời lượng (00:00)
+                </label>
+                <input
+                  type="text"
+                  name="duration"
+                  className="bg-transparent px-3 py-1 border w-full rounded-md text-gray-100"
+                  value={formData.duration}
+                  onChange={handleInputChange}
+                />
+              </div>
 
               <button
                 type="submit"

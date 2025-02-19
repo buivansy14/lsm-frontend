@@ -112,7 +112,7 @@ function LectureDetail() {
       <div className="flex flex-col lg:flex-row">
         {/* Video Section */}
         <div className="lg:w-3/4">
-          <div className="relative w-full h-[80vh] bg-black">
+          <div className="relative w-full h-[85vh] bg-black">
             {!isVideoLoaded && lectures?.uploadType !== 'link' && (
               <div className="w-full h-full cursor-pointer flex justify-center items-center bg-black group">
                 <div
