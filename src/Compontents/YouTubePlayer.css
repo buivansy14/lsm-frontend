@@ -20,6 +20,36 @@
   z-index: 2;
 }
 
+.youtube-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.overlay-container {
+  position: absolute;
+  width: 100%;
+  height: 105%;
+  top: 0;
+  left: 0;
+  background: transparent;
+  z-index: 2;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-icon {
+  font-size: 50px;
+  position: relative;
+  top: 12px;
+}
+
+.overlay-container:hover .play-icon {
+  opacity: 1;
+}
+
 .youtube-overlay-bottom {
   position: absolute;
   bottom: -10px;
@@ -30,12 +60,69 @@
   z-index: 1000;
 }
 
-.youtube-overlay-youtube {
+.fake-menu {
   position: absolute;
-  bottom: -20px;
-  right: 55px;
-  height: 30px;
-  width: 60px;
-  background: transparent;
-  z-index: 2;
+  background: #222;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+  user-select: none;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  background: #000;
+  color: white;
+  position: absolute;
+  bottom: -28px;
+  width: 100%;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.controls.controls-fullscreen {
+  bottom: 0px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.progress-bar {
+  flex-grow: 1;
+  margin: 0 10px;
+  cursor: pointer;
+  height: 5px;
+}
+
+.volume-bar {
+  width: 80px;
+  cursor: pointer;
+  height: 5px;
+}
+
+.time {
+  font-size: 14px;
+}
+
+.video-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
