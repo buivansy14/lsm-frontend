@@ -1,4 +1,3 @@
-import { FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 import { insertDashEveryTwoChars } from '../Utils';
@@ -48,18 +47,6 @@ function CourseCard({ data }) {
         >
           {data?.description}
         </p>
-
-        <div className="flex justify-between">
-          <p className="flex items-center text-sm text-gray-600">
-            <FaUsers className="mr-1 text-gray-300" size={18} />
-            {data?.totalStudents + 20 || 0} học viên
-          </p>
-
-          {/* <p className="flex items-center text-sm font-medium text-gray-600">
-            <FaClock className="mr-1 text-gray-300" size={18} />
-            {convertSecondsToDuration(data?.totalDuration)}
-          </p> */}
-        </div>
         <div className="flex items-center space-x-2">
           {data?.oldPrice && (
             <p className="text-sm text-gray-400 line-through">
