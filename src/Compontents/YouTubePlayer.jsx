@@ -45,6 +45,15 @@ const YouTubePlayer = ({ videoUrl, onEnded }) => {
 
   const onPlay = () => {
     setHide(false);
+    if (playerRef.current) {
+      const currentQuality = playerRef.current.getPlaybackQuality();
+      if (
+        currentQuality !== 'hd1080' &&
+        playerRef.current.getAvailableQualityLevels().includes('hd1080')
+      ) {
+        playerRef.current.setPlaybackQuality('hd1080');
+      }
+    }
   };
 
   const handleOnClick = () => {
@@ -116,7 +125,6 @@ const YouTubePlayer = ({ videoUrl, onEnded }) => {
 
   const onReady = (event) => {
     playerRef.current = event.target;
-    playerRef.current.setPlaybackQuality('hd1080');
   };
 
   useEffect(() => {
@@ -158,6 +166,15 @@ const YouTubePlayer = ({ videoUrl, onEnded }) => {
     };
   }, []);
 
+  const onQualityChange = (event) => {
+    if (
+      event.target.getPlaybackQuality() !== 'hd1080' &&
+      event.target.getAvailableQualityLevels().includes('hd1080')
+    ) {
+      event.target.setPlaybackQuality('hd1080');
+    }
+  };
+
   return (
     <div
       className={`w-full h-full flex justify-center items-center video-container ${
@@ -179,6 +196,7 @@ const YouTubePlayer = ({ videoUrl, onEnded }) => {
         onPlay={onPlay}
         className="youtube-container"
         onReady={onReady}
+        onPlaybackQualityChange={onQualityChange}
       />
       {/* Custom Controls */}
       {!hide && (
