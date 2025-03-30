@@ -1,17 +1,34 @@
-const Modal = ({ isOpen, onClose, title, children, onConfirm }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  onConfirm,
+  height = 300,
+}) => {
   if (!isOpen) return null;
 
   return (
     <form
       onSubmit={onConfirm}
+      style={{
+        zIndex: 10000000,
+      }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
     >
-      <div className="bg-white w-[90%] sm:w-[500px] rounded-lg shadow-lg p-6 relative">
+      <div className="bg-white w-[90%] rounded-lg shadow-lg p-6 relative">
         <h2 className="text-lg font-semibold text-gray-800 text-center">
           {title}
         </h2>
 
-        <div className="mt-4 text-sm text-gray-600">{children}</div>
+        <div
+          className="mt-4 text-sm text-gray-600"
+          style={{
+            height: `${height}px`,
+          }}
+        >
+          {children}
+        </div>
 
         <button
           onClick={onClose}

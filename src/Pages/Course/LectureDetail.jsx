@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import LoadingOverlay from '../../Compontents/LoadingOverlay';
 import NavbarLecture from '../../Compontents/NavbarLecture';
+import SettingVideoHD from '../../Compontents/SettingVideoHD';
 import VideoPlayer from '../../Compontents/VideoPlayer';
 import YouTubePlayer from '../../Compontents/YouTubePlayer';
 import axiosInstance from '../../Helpers/axiosinstance';
@@ -21,7 +22,7 @@ function LectureDetail() {
   const activeLectureRef = useRef(null);
   const sidebarRef = useRef(null);
   const scrollPosition = useRef(0);
-
+  const [open, setOpen] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const isLoading = useIsRequestPending('course', 'getCourseLectures');
   const [videoUrl, setVideoUrl] = useState('');
@@ -157,6 +158,12 @@ function LectureDetail() {
 
           <h2 className="mt-6 text-2xl font-semibold">{lectures?.title}</h2>
           <p className="text-white mt-2">{lectures?.description}</p>
+          <button
+            onClick={() => setOpen(true)}
+            className="mt-4 btn btn-active bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded-md text-lg text-white"
+          >
+            Setting video HD
+          </button>
         </div>
 
         {/* Fixed Sidebar */}
@@ -229,6 +236,14 @@ function LectureDetail() {
           )}
         </div>
       </div>
+
+      <SettingVideoHD
+        isOpen={open}
+        closeModal={() => {
+          setOpen(false);
+          window.location.reload();
+        }}
+      />
     </div>
   );
 }
