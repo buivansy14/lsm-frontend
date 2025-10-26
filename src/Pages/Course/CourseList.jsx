@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CourseCard from '../../Compontents/CourseCard';
@@ -6,6 +7,7 @@ import HomeLayout from '../../Layouts/HomeLayout';
 import { getAllCourse, getAllCourseUser } from '../../Redux/Slices/CourseSlice';
 
 function CourseList() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { courseData, inactiveCourses, activeCourses } = useSelector(
     (state) => state.course
@@ -29,7 +31,7 @@ function CourseList() {
       if (inactiveCourses.length === 0 && activeCourses.length === 0) {
         return (
           <p className="text-lg text-gray-300 text-center pb-6">
-            Hiện tại không có khóa học nào!
+            {t('no_courses_available')}
           </p>
         );
       }
@@ -44,7 +46,7 @@ function CourseList() {
       if (courseData.length === 0) {
         return (
           <p className="text-lg text-gray-300 text-center pb-6">
-            Hiện tại không có khóa học nào!
+            {t('no_courses_available')}
           </p>
         );
       }
@@ -62,7 +64,9 @@ function CourseList() {
     <HomeLayout>
       <div className="min-h-[90vh] pt-12 flex flex-col gap-10 text-white">
         <h1 className="text-center text-3xl font-semibold">
-          <span className="font-bold text-yellow-500">Danh sách khóa học</span>
+          <span className="font-bold text-yellow-500">
+            {t('course_list_title')}
+          </span>
         </h1>
         {renderCourses()}
       </div>

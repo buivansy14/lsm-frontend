@@ -35,8 +35,6 @@ export const addCourseLectures = createAsyncThunk(
       fromData.append('description', userInput.description);
       fromData.append('uploadType', uploadType);
 
-      console.log({ uploadType });
-
       if (uploadType === 'link') {
         fromData.append('videoSrc', userInput?.videoSrc);
         fromData.append('duration', convertTimeToSeconds(userInput?.duration));

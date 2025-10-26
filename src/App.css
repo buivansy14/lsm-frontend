@@ -1,0 +1,35 @@
+.ytp-play-button,     /* Nút Play */
+.ytp-time-display,    /* Thanh thời gian */
+.ytp-progress-bar,    /* Thanh tiến trình */
+.ytp-volume-panel,    /* Nút âm lượng */
+.ytp-subtitles-button, /* Nút bật/tắt phụ đề */
+.ytp-fullscreen-button, /* Nút Fullscreen */
+.ytp-youtube-button,  /* Logo YouTube */
+.ytp-size-button {
+  /* Nút thay đổi kích thước */
+  display: none !important;
+}
+
+/* Ẩn scrollbar mặc định nhưng vẫn cuộn được */
+.scrollbar-thin {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #d1d5db transparent; /* Màu thanh kéo */
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px; /* Thanh ngang */
+  width: 6px; /* Thanh dọc */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 9999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #a1a1a1;
+}

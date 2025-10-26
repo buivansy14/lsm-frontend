@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
@@ -10,6 +11,7 @@ import HomeLayout from '../../Layouts/HomeLayout';
 import { changePassword } from '../../Redux/Slices/AuthSlice';
 
 function ChangePassword() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -64,11 +66,13 @@ function ChangePassword() {
           onSubmit={handleFormSubmit}
           className="flex flex-col justify-center gap-6 rounded-lg p-4 text-white w-[400px] h-[26rem] shadow-[0_0_10px_black]"
         >
-          <h1 className="text-center text-2xl font-bold">Thay đổi mật khẩu</h1>
+          <h1 className="text-center text-2xl font-bold">
+            {t('btn_update_password')}
+          </h1>
 
           <div className="flex flex-col gap-1">
             <label htmlFor="oldPassword" className="font-semibold">
-              Mật khẩu củ
+              {t('lbl_old_password')}
             </label>
             <div className="relative">
               <input
@@ -76,7 +80,7 @@ function ChangePassword() {
                 type={showPassword ? 'text' : 'password'}
                 name="oldPassword"
                 id="oldPassword"
-                placeholder="Nhập mật khẩu củ"
+                placeholder={t('ph_enter_old_password')}
                 className="bg-transparent px-4 py-2 border rounded-md w-full"
                 value={userPassword.oldPassword}
                 onChange={handlePasswordChange}
@@ -93,7 +97,7 @@ function ChangePassword() {
 
           <div className="flex flex-col gap-1">
             <label className="text-lg font-semibold" htmlFor="newPassword">
-              Mật khẩu mới
+              {t('lbl_new_password')}
             </label>
             <div className="relative">
               <input
@@ -101,7 +105,7 @@ function ChangePassword() {
                 type={showPasswordNew ? 'text' : 'password'}
                 name="newPassword"
                 id="newPassword"
-                placeholder="Nhập mật khẩu mới"
+                placeholder={t('ph_enter_new_password')}
                 className="bg-transparent px-4 py-2 border rounded-md w-full"
                 value={userPassword.newPassword}
                 onChange={handlePasswordChange}
@@ -118,7 +122,7 @@ function ChangePassword() {
 
           <Link to={'/user/profile'}>
             <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-2">
-              <AiOutlineArrowLeft /> Trờ lại
+              <AiOutlineArrowLeft /> {t('btn_back')}
             </p>
           </Link>
 
@@ -126,7 +130,7 @@ function ChangePassword() {
             className="w-full bg-yellow-600 hover:bg-yellow-700 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
             type="submit"
           >
-            Thay đổi mật khẩu
+            {t('btn_update_password')}
           </button>
         </form>
       </div>

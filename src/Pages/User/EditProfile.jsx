@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { BsPersonCircle } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +10,7 @@ import HomeLayout from '../../Layouts/HomeLayout';
 import { getuserData, updateProfile } from '../../Redux/Slices/AuthSlice';
 
 function EditProfile() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,7 +75,7 @@ function EditProfile() {
           className="flex flex-col items-center justify-center gap-5 rounded-lg p-4 text-white w-80 min-h-[26rem] shadow-[0_0_10px_black]"
         >
           <h1 className="text-center text-2xl font-semibold">
-            Chỉnh Sửa Hồ Sơ
+            {t('lbl_edit_profile')}
           </h1>
           <label className="cursor-pointer" htmlFor="image_uploads">
             {data.previewImage ? (
@@ -97,14 +99,14 @@ function EditProfile() {
 
           <div className="w-full flex flex-col gap-1">
             <label htmlFor="fullName" className="font-semibold">
-              Họ và Tên
+              {t('lbl_full_name')}
             </label>
             <input
               type="text"
               required
               name="fullName"
               id="fullName"
-              placeholder="Nhập họ và tên của bạn..."
+              placeholder={t('ph_enter_full_name')}
               className="bg-transparent px-2 py-1 border"
               onChange={handleInputChange}
               value={data.fullName}
@@ -114,12 +116,12 @@ function EditProfile() {
             type="submit"
             className="w-full mt-2 bg-yellow-600 hover:bg-yellow-500 py-2 font-semibold text-lg cursor-pointer transition-all ease-in-out duration-300 rounded-sm"
           >
-            Cập Nhật Hồ Sơ
+            {t('btn_update_profile')}
           </button>
           <Link to="/user/profile">
             <p className="link text-accent cursor-pointer flex items-center justify-center w-full gap-3">
               <AiOutlineArrowLeft />
-              Quay lại hồ sơ
+              {t('btn_back_to_profile')}
             </p>
           </Link>
         </form>

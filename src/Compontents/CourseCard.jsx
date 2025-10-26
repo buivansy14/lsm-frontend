@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { insertDashEveryTwoChars } from '../Utils';
 
 function CourseCard({ data }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const lectureId = data?.lectures?.[0]?._id;
 
@@ -79,7 +81,7 @@ function CourseCard({ data }) {
           onClick={onNavigate}
           className="absolute transform bottom-[16px] right-[10px] bg-red-600 text-white text-sm rounded-md p-2"
         >
-          Học ngay
+          {t('lbl_learn_now')}
         </div>
       )}
     </div>

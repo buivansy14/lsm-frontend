@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import GlobalLoading from '../Compontents/Common/GlobalLoading.jsx';
 import Footer from '../Compontents/Footer.jsx';
 import Header from '../Compontents/Header';
 import { logout } from '../Redux/Slices/AuthSlice';
@@ -24,6 +25,7 @@ function HomeLayout({ children }) {
   }
   return (
     <div className="min-h-[90vh]">
+      <GlobalLoading />
       <Header
         isLoggedIn={isLoggedIn}
         handleLogout={handleLogout}

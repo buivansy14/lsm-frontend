@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -9,6 +10,7 @@ import HomeLayout from '../Layouts/HomeLayout';
 import { login } from '../Redux/Slices/AuthSlice';
 
 function Login() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useIsRequestPending('auth', 'login');
@@ -52,7 +54,7 @@ function Login() {
           className="flex flex-col justify-center gap-3 rounded-lg text-white p-6 shadow-[0_0_10px_black] "
         >
           <h1 className="text-center text-2xl font-bold">
-            Chào mừng bạn đến với EduPlatform
+            {t('msg_welcome_to_edu_platform')}
           </h1>
 
           <div className="flex flex-col gap-1">
@@ -73,7 +75,7 @@ function Login() {
 
           <div className="flex flex-col gap-1">
             <label htmlFor="password" className="font-semibold">
-              Mật khẩu
+              {t('lbl_password')}
             </label>
             <input
               type="password"
@@ -87,18 +89,18 @@ function Login() {
             />
           </div>
 
-          <LoadingButton isLoading={isLoading} label="Đăng nhập" />
+          <LoadingButton isLoading={isLoading} label={t('btn_login')} />
 
           <Link to={'/forget-password'}>
             <p className="text-center link text-accent cursor-pointer">
-              Quên mật khẩu
+              {t('lbl_forgot_password')}
             </p>
           </Link>
 
           <p className="text-center">
-            Bạn chưa có tài khoản ?{' '}
+            {t('msg_no_account_yet')}{' '}
             <Link to="/signup" className=" link  text-accent cursor-pointer">
-              Đăng ký
+              {t('btn_signup')}
             </Link>
           </p>
         </form>

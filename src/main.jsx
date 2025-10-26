@@ -1,5 +1,6 @@
 import './index.css';
 import './App.css';
+import './i18n/i18n.js';
 
 import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';

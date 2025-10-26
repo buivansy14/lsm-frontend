@@ -1,10 +1,12 @@
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import YouTube from 'react-youtube';
 
 import Modal from './Modal';
 
 const SettingVideoHD = ({ isOpen, closeModal }) => {
   const playerRef = useRef(null);
+  const { t } = useTranslation();
 
   const getYouTubeVideoId = (url) => {
     const match = url.match(
@@ -36,7 +38,7 @@ const SettingVideoHD = ({ isOpen, closeModal }) => {
   return (
     <div height={600}>
       <Modal
-        title="Chỉnh sửa độ phân giải video (Chỉ setting lần đầu tiên)"
+        title={t('msg_edit_video_resolution_first_time')}
         isOpen={isOpen}
         onClose={closeModal}
         height={400}

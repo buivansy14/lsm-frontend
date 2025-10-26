@@ -1,4 +1,7 @@
+import { useTranslation } from 'react-i18next';
+
 const LessonProgress = ({ completedLessons, totalLessons }) => {
+  const { t } = useTranslation();
   const progressPercentage = Math.round(
     (completedLessons / totalLessons) * 100
   );
@@ -15,7 +18,8 @@ const LessonProgress = ({ completedLessons, totalLessons }) => {
           progressPercentage > 0 ? 'text-blue-800' : 'text-black'
         }`}
       >
-        {completedLessons}/{totalLessons} bài học ({progressPercentage}%)
+        {completedLessons}/{totalLessons} {t('lbl_lesson')} (
+        {progressPercentage}%)
       </span>
     </div>
   );

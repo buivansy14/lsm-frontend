@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import HomeLayout from '../../Layouts/HomeLayout';
 
 function Profile() {
+  const { t } = useTranslation();
   const userData = useSelector((state) => state?.auth?.data);
 
   return (
@@ -36,14 +38,14 @@ function Profile() {
               to="/change-password"
               className="bg-yellow-600 hover:bg-yellow-500 text-center py-3 rounded-md font-semibold transition-all ease-in-out duration-300"
             >
-              Đổi mật khẩu
+              {t('lbl_change_password')}
             </Link>
 
             <Link
               to="/user/editprofile"
               className="bg-yellow-600 hover:bg-yellow-500 text-center py-3 rounded-md font-semibold transition-all ease-in-out duration-300"
             >
-              Chỉnh sửa thông tin
+              {t('lbl_edit_profile')}
             </Link>
           </div>
         </div>

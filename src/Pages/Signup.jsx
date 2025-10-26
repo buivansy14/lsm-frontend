@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { BsPersonCircle } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,6 +12,7 @@ import { creatAccount } from '../Redux/Slices/AuthSlice';
 function Signup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [prevImage, setPrevImage] = useState('');
 
@@ -100,7 +102,9 @@ function Signup() {
           onSubmit={createNewAccount}
           className="flex flex-col justify-center gap-3 rounded-lg text-white p-6 shadow-[0_0_10px_black] w-[400px]"
         >
-          <h1 className="text-center text-2xl font-bold">Đăng ký tài khoản</h1>
+          <h1 className="text-center text-2xl font-bold">
+            {t('lbl_register_account')}
+          </h1>
           <label htmlFor="image_uploads" className=" cursor-pointer">
             {prevImage ? (
               <img className="w-24 h-24 rounded-full m-auto" src={prevImage} />
@@ -119,7 +123,7 @@ function Signup() {
 
           <div className="flex flex-col gap-1">
             <label htmlFor="fullName" className="font-semibold">
-              Họ và tên
+              {t('lbl_full_name')}
             </label>
             <input
               type="text"
@@ -151,7 +155,7 @@ function Signup() {
 
           <div className="flex flex-col gap-1">
             <label htmlFor="password" className="font-semibold">
-              Mật khẩu
+              {t('lbl_password')}
             </label>
             <input
               type="password"
@@ -168,12 +172,12 @@ function Signup() {
             type="submit"
             className=" mt-2 bg-yellow-600 hover:bg-yellow-500 py-2 font-semibold text-lg cursor-pointer transition-all ease-in-out duration-300  rounded-sm"
           >
-            Tạo tài khoản
+            {t('btn_create_account')}
           </button>
           <p className="text-center">
-            Bạn đã có tài khoản ?{' '}
+            {t('msg_already_registered')}{' '}
             <Link to="/login" className=" link text-accent cursor-pointer">
-              Đăng nhập
+              {t('btn_login')}
             </Link>
           </p>
         </form>
