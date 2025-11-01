@@ -121,14 +121,31 @@ const CreateMarketplaceModal = ({
               required
             />
 
-            <FormInput
+            {/* <FormInput
               name="description"
               label="Mô tả"
               placeholder="Nhập mô tả chi tiết..."
               type="textarea"
               required
-            />
+            /> */}
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Mô tả
+              </label>
+              <Controller
+                name="description"
+                control={methods.control}
+                render={({ field }) => (
+                  <ReactQuill
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="Nhập mô tả chi tiết..."
+                    className="bg-white text-black rounded-md [&_.ql-editor]:min-h-[200px]"
+                  />
+                )}
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Hướng dẫn cài đặt

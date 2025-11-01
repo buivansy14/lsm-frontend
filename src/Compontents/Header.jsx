@@ -85,7 +85,7 @@ function Header({ isLoggedIn, handleLogout, fullName }) {
             >
               {t('lbl_course')}
             </Link>
-            {settings?.marketplace_enabled && role === 'ADMIN' && (
+            {settings?.marketplace_enabled && (
               <Link
                 to="/marketplace"
                 className="hover:text-yellow-400 transition duration-200"

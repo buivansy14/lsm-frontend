@@ -18,7 +18,7 @@ export default function ToolTabs({ tool }) {
   ];
 
   return (
-    <div className="mt-10 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="mt-10 mb-5 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       {/* 🟨 Tabs header */}
       <div className="flex overflow-x-auto border-b border-gray-200 bg-gray-50/80 scrollbar-thin scroll-smooth">
         {tabs.map((tab) => (
@@ -44,7 +44,11 @@ export default function ToolTabs({ tool }) {
             <h2 className="text-lg font-semibold text-gray-800">
               {t('lbl_detailed_introduction')}
             </h2>
-            <p>{tool?.description}</p>
+            <div
+                dangerouslySetInnerHTML={{
+                  __html: tool?.description,
+                }}
+              />
           </div>
         )}
 

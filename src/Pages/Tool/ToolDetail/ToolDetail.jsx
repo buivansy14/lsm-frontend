@@ -253,45 +253,6 @@ export default function ToolDetail() {
         {/* 🧭 Tabs nội dung */}
         <ToolTabs tool={tool} />
 
-        {/* --- Tool liên quan --- */}
-        <div className="mt-16">
-          <h2 className="text-xl font-semibold text-white mb-6">
-            Công cụ liên quan
-          </h2>
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-            {tools
-              .filter((t) => t.id !== id)
-              .slice(0, 4)
-              .map((related) => (
-                <div
-                  key={related.id}
-                  className="bg-white rounded-xl border shadow-sm hover:shadow-md transition-all overflow-hidden"
-                >
-                  <div className="relative aspect-[4/3] bg-gray-50">
-                    <img
-                      src={related.image}
-                      alt={related.name}
-                      className="object-contain w-full h-full"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-sm font-medium text-white line-clamp-1">
-                      {related.name}
-                    </h3>
-                    <p className="text-xs text-white line-clamp-2 mt-1">
-                      {related.tagline}
-                    </p>
-                    <a
-                      href={`/tools/${related.id}`}
-                      className="mt-3 inline-block text-xs text-indigo-600 font-medium hover:underline"
-                    >
-                      Xem chi tiết →
-                    </a>
-                  </div>
-                </div>
-              ))}
-          </div> */}
-        </div>
         {showPayment && (
           <PaymentModal
             open={showPayment}
