@@ -121,14 +121,6 @@ const CreateMarketplaceModal = ({
               required
             />
 
-            {/* <FormInput
-              name="description"
-              label="Mô tả"
-              placeholder="Nhập mô tả chi tiết..."
-              type="textarea"
-              required
-            /> */}
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Mô tả

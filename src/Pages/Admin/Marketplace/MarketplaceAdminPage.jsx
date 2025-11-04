@@ -1,11 +1,12 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { BsTrash } from 'react-icons/bs';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaUserPlus } from 'react-icons/fa';
 
 import Breadcrumb from '../../../Compontents/Common/Breadcrumb';
 import axiosInstance from '../../../Helpers/axiosinstance';
 import HomeLayout from '../../../Layouts/HomeLayout';
+import AddUserModal from './AddUserModal';
 import CreateMarketplaceModal from './CreateMarketplaceModal';
 
 const MarketplaceAdminPage = () => {
@@ -14,6 +15,7 @@ const MarketplaceAdminPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [currentId, setCurrentId] = useState();
   const [isEdit, setIsEdit] = useState(false);
+  const [openAddUser, setOpenAddModal] = useState(false);
 
   const fetchTools = async () => {
     try {
@@ -68,6 +70,11 @@ const MarketplaceAdminPage = () => {
     setCurrentId(tool?._id);
     setIsEdit(true);
     setOpenModal(true);
+  };
+
+  const handleAddUser = (tool) => {
+    setOpenAddModal(true);
+    setCurrentId(tool?._id);
   };
 
   return (
@@ -140,6 +147,13 @@ const MarketplaceAdminPage = () => {
                       </td>
                       <td className="px-6 py-4 text-center space-x-2">
                         <button
+                          className="p-2 hover:bg-gray-100 rounded-lg text-green-600"
+                          title="Thêm người dùng"
+                          onClick={() => handleAddUser(tool)}
+                        >
+                          <FaUserPlus size={18} />
+                        </button>
+                        <button
                           className="p-2 hover:bg-gray-100 rounded-lg text-gray-600"
                           title="Chỉnh sửa"
                           onClick={() => handleOpenEdit(tool)}
@@ -180,6 +194,17 @@ const MarketplaceAdminPage = () => {
             onSubmit={handleUpdate}
             currentId={currentId}
             size="lg"
+          />
+        )}
+
+        {openAddUser && currentId && (
+          <AddUserModal
+            isOpen={openAddUser}
+            marketplaceId={currentId}
+            onClose={() => {
+              setOpenAddModal(false);
+              setCurrentId(null);
+            }}
           />
         )}
       </div>

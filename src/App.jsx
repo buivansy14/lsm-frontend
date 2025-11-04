@@ -1,11 +1,10 @@
 import './App.css';
 
-import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import RequireAuth from './Compontents/Auth/RequireAuth.jsx';
 import { LoadingProvider } from './Context/LoadingProvider.jsx';
-import axiosInstance from './Helpers/axiosinstance.js';
 import AboutUs from './Pages/AboutUs.jsx';
 import CategoryAdminPage from './Pages/Admin/Category/CategoryAdminPage.jsx';
 import MarketplaceAdminPage from './Pages/Admin/Marketplace/MarketplaceAdminPage.jsx';
@@ -39,8 +38,6 @@ import EditProfile from './Pages/User/EditProfile.jsx';
 import Profile from './Pages/User/Profile.jsx';
 
 function App() {
-  const [settings, setSettings] = useState({});
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (
@@ -66,20 +63,6 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const res = await axiosInstance.get('/settings');
-        const all = res.data?.data || [];
-        const mapped = Object.fromEntries(all.map((s) => [s.key, s.value]));
-        setSettings(mapped);
-      } catch (error) {
-        console.error('Failed to load settings', error);
-      }
-    };
-    fetchSettings();
-  }, []);
-
   return (
     <LoadingProvider>
       <Routes>
@@ -96,26 +79,8 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/forget-password" element={<ForgetPassword />}></Route>
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
-        <Route
-          path="/marketplace"
-          element={
-            settings.marketplace_enabled ? (
-              <ToolList />
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        />
-        <Route
-          path="/marketplace/:id"
-          element={
-            settings.marketplace_enabled ? (
-              <ToolDetail />
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        />
+        <Route path="/marketplace" element={<ToolList />} />
+        <Route path="/marketplace/:id" element={<ToolDetail />} />
         <Route element={<RequireAuth allowedRoles={['ADMIN']} />}>
           <Route path="/course/create" element={<CreateCourse />}></Route>
           <Route path="/course/edit" element={<EditCourse />}></Route>
