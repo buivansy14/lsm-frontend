@@ -5,6 +5,7 @@ import { FaEdit, FaUserPlus } from 'react-icons/fa';
 
 import Breadcrumb from '../../../Compontents/Common/Breadcrumb';
 import axiosInstance from '../../../Helpers/axiosinstance';
+import { getImageUrl } from '../../../Helpers/imageHelper';
 import HomeLayout from '../../../Layouts/HomeLayout';
 import AddUserModal from './AddUserModal';
 import CreateMarketplaceModal from './CreateMarketplaceModal';
@@ -35,7 +36,46 @@ const MarketplaceAdminPage = () => {
 
   const handleCreated = async (data) => {
     try {
-      await axiosInstance.post('/marketplace', data);
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value === undefined || value === null) return;
+
+        if (key === 'image') {
+          if (value instanceof File) {
+            formData.append('image', value);
+          } else if (typeof value === 'string') {
+            formData.append('image', value);
+          }
+          return;
+        }
+
+        if (key === 'images') {
+          if (Array.isArray(value)) {
+            value.forEach((file) => {
+              if (file instanceof File) {
+                formData.append('images', file);
+              } else if (typeof file === 'string') {
+                formData.append('images', file);
+              }
+            });
+          }
+          return;
+        }
+
+        if (key === 'tags') {
+          formData.append(
+            'tags',
+            Array.isArray(value) ? value.join(',') : value || '',
+          );
+          return;
+        }
+
+        formData.append(key, value);
+      });
+
+      await axiosInstance.post('/marketplace', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
     } catch (error) {
       console.error('Lỗi khi tạo tool:', error);
     } finally {
@@ -45,7 +85,46 @@ const MarketplaceAdminPage = () => {
   };
   const handleUpdate = async (data) => {
     try {
-      await axiosInstance.put(`/marketplace/${currentId}`, data);
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value === undefined || value === null) return;
+
+        if (key === 'image') {
+          if (value instanceof File) {
+            formData.append('image', value);
+          } else if (typeof value === 'string') {
+            formData.append('image', value);
+          }
+          return;
+        }
+
+        if (key === 'images') {
+          if (Array.isArray(value)) {
+            value.forEach((file) => {
+              if (file instanceof File) {
+                formData.append('images', file);
+              } else if (typeof file === 'string') {
+                formData.append('images', file);
+              }
+            });
+          }
+          return;
+        }
+
+        if (key === 'tags') {
+          formData.append(
+            'tags',
+            Array.isArray(value) ? value.join(',') : value || '',
+          );
+          return;
+        }
+
+        formData.append(key, value);
+      });
+
+      await axiosInstance.put(`/marketplace/${currentId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
     } catch (error) {
       console.error('Lỗi khi update tool:', error);
     } finally {
@@ -127,7 +206,7 @@ const MarketplaceAdminPage = () => {
                     <tr key={tool._id} className="border-t hover:bg-gray-50">
                       <td className="py-3 px-4">
                         <img
-                          src={tool.image || '/no-image.png'}
+                          src={getImageUrl(tool.image) || '/no-image.png'}
                           alt={tool.name}
                           className="w-12 h-12 object-cover rounded-md"
                         />

@@ -6,6 +6,7 @@ import ReactQuill from 'react-quill';
 
 import FormInput from '../../../Compontents/Form/FormInput';
 import FormSelect from '../../../Compontents/Form/FormSelect';
+import ImageUploadField from '../../../Compontents/Form/ImageUploadField';
 import axiosInstance from '../../../Helpers/axiosinstance';
 import { useLockBodyScroll } from '../../../Hooks/useLockBodyScroll';
 
@@ -47,9 +48,7 @@ const CreateMarketplaceModal = ({
   const handleFormSubmit = (data) => {
     onSubmit({
       ...data,
-      images: data.images
-        ? data.images.split(',').map((img) => img.trim())
-        : [],
+      images: data.images || [],
       tags: data.tags ? data.tags.split(',').map((tag) => tag.trim()) : [],
     });
     reset();
@@ -83,7 +82,7 @@ const CreateMarketplaceModal = ({
             tags: tool.tags ? tool.tags.join(', ') : '',
             status: tool.status || 'draft',
             demoUrl: tool.demoUrl || '',
-            images: tool.images ? tool.images.join(', ') : '',
+            images: tool.images || [],
             size: tool.size || '',
             typeFile: tool.typeFile || '',
             downloadUrl: tool.downloadUrl || '',
@@ -95,7 +94,7 @@ const CreateMarketplaceModal = ({
       };
       fetchTool();
     }
-  }, [currentId]);
+  }, [currentId, methods]);
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
@@ -194,33 +193,31 @@ const CreateMarketplaceModal = ({
                 required
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <FormInput
-                name="demoUrl"
-                label="Demo URL"
-                placeholder="https://example.com/image.png"
-                required
-              />
-              <FormInput
-                name="image"
-                label="Ảnh URL"
-                placeholder="https://example.com/image.png"
-                required
-              />
-            </div>
+            <FormInput
+              name="demoUrl"
+              label="Demo URL"
+              placeholder="https://example.com/image.png"
+              required
+            />
+            <ImageUploadField
+              label="Chọn ảnh demo"
+              name="image"
+              required
+              control={methods.control}
+            />
             <FormInput
               name="downloadUrl"
               label="URL tải về"
               placeholder="https://example.com/image.png"
               required
             />
-            {/* Nhiều ảnh */}
-            <FormInput
+
+            <ImageUploadField
+              label="Chọn danh sách ảnh"
               name="images"
-              label="Danh sách ảnh (cách nhau bằng dấu phẩy)"
-              placeholder="https://a.png, https://b.png"
-              type="textarea"
-              rows={2}
+              control={methods.control}
+              multiple
+              maxFiles={6}
             />
 
             {/* Tags */}

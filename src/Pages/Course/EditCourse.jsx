@@ -4,6 +4,7 @@ import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+import { getImageUrl } from '../../Helpers/imageHelper';
 import HomeLayout from '../../Layouts/HomeLayout';
 import { updateCourse } from '../../Redux/Slices/CourseSlice';
 
@@ -11,6 +12,7 @@ function EditCourse() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
+
   const [userInput, setUserInput] = useState({
     id: state?._id,
     title: state?.title,
@@ -18,7 +20,7 @@ function EditCourse() {
     description: state?.description,
     createdBy: state?.createdBy,
     thumbnail: null,
-    previewImage: state.thumbnail?.secure_url,
+    previewImage: getImageUrl(state.thumbnail?.secure_url),
     oldPrice: state?.oldPrice,
     price: state?.price,
   });

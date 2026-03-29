@@ -34,7 +34,7 @@ const LandingPage = () => {
   const getInfoDetail = async (courseId) => {
     try {
       const response = await axiosInstance.get(
-        `/course/getInfoLectures/${removeDashes(courseId)}`
+        `/course/getInfoLectures/${removeDashes(courseId)}`,
       );
       setCourseInfo(response?.data);
     } catch (error) {
@@ -69,11 +69,11 @@ const LandingPage = () => {
         {/* Hero Section */}
         <header className="bg-blue-600 text-white text-center py-16">
           <h1 className="text-4xl font-bold">
-            Khám phá sức mạnh của Tekla API
+            {courseInfo?.title || 'Khóa học của bạn'}
           </h1>
           <p className="mt-4 text-lg">
-            Phát triển kỹ năng lập trình và tự động hóa thiết kế của bạn ngay
-            hôm nay!
+            {courseInfo?.description ||
+              'Khám phá khóa học, học tập và thực hành ngay hôm nay!'}
           </p>
           <button
             onClick={() => setIsOpen(true)}
@@ -87,12 +87,13 @@ const LandingPage = () => {
         <section className="py-16 px-8 bg-white">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-blue-600">
-              Giới thiệu Tekla API
+              {courseInfo?.title
+                ? `Giới thiệu ${courseInfo.title}`
+                : 'Giới thiệu khóa học'}
             </h2>
             <p className="mt-4 text-gray-700 leading-relaxed">
-              Tekla API là công cụ mạnh mẽ giúp bạn kết nối và tự động hóa các
-              tác vụ trên nền tảng Tekla Structures. Khóa học này phù hợp với
-              mọi cấp độ, từ cơ bản đến nâng cao.
+              {courseInfo?.description ||
+                'Thông tin chi tiết về khóa học sẽ có ở đây.'}
             </p>
           </div>
         </section>
@@ -167,48 +168,6 @@ const LandingPage = () => {
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <section className="py-16 px-8 bg-gray-50">
-          <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-blue-600">
-              Đánh giá từ học viên
-            </h2>
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded shadow">
-                <p className="text-gray-600 italic">
-                  Khóa học rất tuyệt vời! Giảng viên nhiệt tình, dễ hiểu. Nội
-                  dung khóa học phong phú, bài tập thực hành bổ ích. Tôi học
-                  được nhiều kiến thức hữu ích và sẽ tiếp tục học thêm các khóa
-                  sau.
-                </p>
-                <span className="block mt-4 text-gray-700 font-semibold">
-                  - Trần Minh Bình
-                </span>
-              </div>
-              <div className="bg-white p-6 rounded shadow">
-                <p className="text-gray-600 italic">
-                  Khóa học giúp tôi nắm vững kiến thức cơ bản, dễ áp dụng vào
-                  công việc. Giảng viên giảng giải rõ ràng, bài tập thực hành
-                  thú vị. Môi trường học thoải mái và phù hợp cho tất cả mọi
-                  người.
-                </p>
-                <span className="block mt-4 text-gray-700 font-semibold">
-                  - Nguyễn Bảo Anh
-                </span>
-              </div>
-              <div className="bg-white p-6 rounded shadow">
-                <p className="text-gray-600 italic">
-                  Khóa học chất lượng, giảng viên giảng dạy dễ hiểu và giải đáp
-                  thắc mắc nhanh chóng. Nội dung khóa học chi tiết, bài tập thực
-                  tế giúp tôi áp dụng kiến thức vào công việc hiệu quả hơn.
-                </p>
-                <span className="block mt-4 text-gray-700 font-semibold">
-                  - Lê Đức Duy
-                </span>
-              </div>
-            </div>
-          </div>
-        </section>
         {isOpen && (
           <PaymentModal
             isOpen={isOpen}

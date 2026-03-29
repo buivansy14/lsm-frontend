@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { getImageUrl } from '../Helpers/imageHelper';
 import { insertDashEveryTwoChars } from '../Utils';
 
 function CourseCard({ data }) {
@@ -22,9 +23,9 @@ function CourseCard({ data }) {
       {/* Ảnh thumbnail */}
       <div className="overflow-hidden">
         <img
-          className={`h-40 w-full rounded-t-xl object-cover transition-transform duration-300 
+          className={`h-56 w-full rounded-t-xl object-cover transition-transform duration-300 
           ${data?.isActive ? 'group-hover:scale-110' : 'opacity-50'}`}
-          src={data?.thumbnail?.secure_url}
+          src={getImageUrl(data?.thumbnail?.secure_url)}
           alt="course thumbnail"
         />
       </div>

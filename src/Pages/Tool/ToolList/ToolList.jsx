@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Breadcrumb from '../../../Compontents/Common/Breadcrumb';
 import Pagination from '../../../Compontents/Common/Pagination';
 import axiosInstance from '../../../Helpers/axiosinstance';
+import { getImageUrl } from '../../../Helpers/imageHelper';
 import HomeLayout from '../../../Layouts/HomeLayout';
 import SearchBar from './SearchBar';
 
@@ -62,7 +63,7 @@ export default function ToolList() {
               {/* Ảnh + Giá góc phải */}
               <div className="relative bg-gray-50 flex items-center justify-center aspect-[4/3] overflow-hidden border-b">
                 <img
-                  src={tool.image}
+                  src={getImageUrl(tool.image)}
                   alt={tool.name}
                   className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
                 />

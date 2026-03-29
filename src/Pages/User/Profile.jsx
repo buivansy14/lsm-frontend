@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { getImageUrl } from '../../Helpers/imageHelper';
 import HomeLayout from '../../Layouts/HomeLayout';
 
 function Profile() {
@@ -15,7 +16,7 @@ function Profile() {
           {/* Avatar */}
           <img
             className="w-40 h-40 m-auto rounded-full border-4 border-yellow-500 shadow-xl"
-            src={userData?.avatar?.secure_url}
+            src={getImageUrl(userData?.avatar?.secure_url)}
             alt="User Avatar"
           />
 

@@ -22,6 +22,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import Breadcrumb from '../../../Compontents/Common/Breadcrumb';
 import axiosInstance from '../../../Helpers/axiosinstance';
+import { getImageUrl } from '../../../Helpers/imageHelper';
 import HomeLayout from '../../../Layouts/HomeLayout';
 import PaymentModal from './PaymentModal';
 import ToolTabs from './ToolTabs';
@@ -89,7 +90,7 @@ export default function ToolDetail() {
                   <div className="flex items-center justify-center aspect-[4/3] bg-gray-50">
                     <img
                       src={
-                        img ||
+                        getImageUrl(img) ||
                         'https://thumbs.dreamstime.com/b/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available-236105299.jpg'
                       }
                       alt={`${tool?.name} ${index + 1}`}

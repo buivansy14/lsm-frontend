@@ -91,13 +91,10 @@ export const updateCourse = createAsyncThunk('/course/update', async (data) => {
       formData.append('thumbnail', data.thumbnail);
     }
 
-    const res = axiosInstance.put(`/course/${data.id}`, {
-      title: data.title,
-      category: data.category,
-      createdBy: data.createdBy,
-      description: data.description,
-      oldPrice: data?.oldPrice,
-      price: data?.price,
+    const res = axiosInstance.put(`/course/${data.id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
 
     toast.promise(res, {
