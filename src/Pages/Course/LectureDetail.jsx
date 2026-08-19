@@ -127,18 +127,7 @@ function LectureDetail() {
           <div className="w-full lg:w-3/4 flex flex-col space-y-6">
             
             {/* Video Player Box */}
-            <div className="relative w-full h-[85vh] bg-black rounded-2xl overflow-hidden border border-slate-800 shadow-2xl shadow-black/80">
-              
-              {/* Subtle Loading overlay inside video box during lesson switch */}
-              {isLoading && (
-                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
-                  <div className="w-10 h-10 border-2 border-blue-500/30 border-t-cyan-400 rounded-full animate-spin"></div>
-                  <span className="text-xs sm:text-sm font-medium text-slate-200 bg-slate-900/90 px-3.5 py-1.5 rounded-full border border-slate-700/80 shadow-xl">
-                    Đang tải bài học...
-                  </span>
-                </div>
-              )}
-
+            <div className="relative w-full h-[85vh] bg-black">
               {!isVideoLoaded && lectures?.uploadType !== 'link' && (
                 <div className="w-full h-full cursor-pointer flex justify-center items-center bg-black group">
                   <div
