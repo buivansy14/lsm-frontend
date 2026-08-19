@@ -2,8 +2,9 @@ import axios from 'axios';
 
 import { hideLoading, showLoading } from './loadingManager';
 
-export const BASE_URL = 'https://api.course.techonline.edu.vn/api/v1';
-// export const BASE_URL = 'http://localhost:8080/api/v1';
+export const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://api.course.techonline.edu.vn/api/v1';
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
