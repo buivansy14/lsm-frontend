@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import { FiArrowLeft, FiKey, FiMail } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ import { forgetPassword } from '../../Redux/Slices/AuthSlice';
 function ForgetPassword() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState({
     email: '',
@@ -19,20 +21,19 @@ function ForgetPassword() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // checking for the empty field
     if (!data.email) {
-      toast.error('All fields are mandatory');
+      toast.error('Vui lòng nhập địa chỉ email');
       return;
     }
 
-    // email validation using regex
     if (!isEmail(data.email)) {
-      toast.error('Invaild email id  ');
+      toast.error('Địa chỉ email không hợp lệ');
       return;
     }
 
-    // calling the api from auth slice
+    setLoading(true);
     const response = await dispatch(forgetPassword(data));
+    setLoading(false);
     if (response?.payload?.success) {
       setData({
         email: '',
@@ -42,47 +43,75 @@ function ForgetPassword() {
 
   return (
     <HomeLayout>
-      <div className="flex items-center justify-center h-[100vh]">
-        {/* forget password card */}
-        <form
-          onSubmit={handleFormSubmit}
-          className="flex flex-col justify-center gap-6 rounded-lg p-4 text-white w-[400px] h-[26rem] shadow-[0_0_10px_black]"
-        >
-          <h1 className="text-center text-2xl font-bold">
-            {t('lbl_forgot_password')}
-          </h1>
+      <div className="min-h-[85vh] bg-[#0b0f19] text-slate-100 antialiased flex items-center justify-center px-4 py-12 relative overflow-hidden">
+        {/* Background Ambient Glows */}
+        <div className="absolute top-1/4 left-1/3 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
-          <p>{t('msg_verification_link_sent')}</p>
-
-          <div className="flex flex-col gap-1">
-            <input
-              required
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Nhập email đã đăng ký của bạn"
-              className="bg-transparent px-2 py-1 border"
-              value={data.email}
-              onChange={(event) => setData({ email: event.target.value })}
-            />
-          </div>
-
-          <button
-            className="w-full bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
-            type="submit"
+        <div className="relative z-10 w-full max-w-md">
+          <form
+            onSubmit={handleFormSubmit}
+            className="bg-[#131b2e]/90 border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-md space-y-6"
           >
-            {t('btn_get_verification_link')}
-          </button>
+            {/* Header */}
+            <div className="text-center space-y-2">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mx-auto shadow-inner">
+                <FiKey size={22} />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                {t('lbl_forgot_password') || 'Quên Mật Khẩu'}
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                {t('msg_verification_link_sent') || 'Nhập địa chỉ email của bạn để nhận liên kết khôi phục mật khẩu qua email.'}
+              </p>
+            </div>
 
-          <p className="text-center">
-            {t('msg_already_have_account')}{' '}
-            <Link to={'/login'} className="link text-accent cursor-pointer">
-              {t('btn_login')}
-            </Link>
-          </p>
-        </form>
+            {/* Email Input */}
+            <div className="space-y-1.5 text-start">
+              <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                Email
+              </label>
+              <div className="relative flex items-center">
+                <FiMail className="absolute left-4 text-slate-500" size={16} />
+                <input
+                  required
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="name@example.com"
+                  className="w-full pl-11 pr-4 py-3 bg-slate-900/90 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  value={data.email}
+                  onChange={(event) => setData({ email: event.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="pt-1">
+              <button
+                disabled={loading}
+                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white font-bold text-sm sm:text-base transition-all duration-200 shadow-md shadow-amber-500/20 hover:scale-[1.01] active:scale-99 disabled:opacity-70 disabled:cursor-not-allowed"
+                type="submit"
+              >
+                {loading ? 'Đang gửi...' : (t('btn_get_verification_link') || 'Gửi liên kết khôi phục')}
+              </button>
+            </div>
+
+            {/* Footer / Back to Login */}
+            <div className="pt-2 border-t border-slate-800/80 text-center text-xs sm:text-sm text-slate-400">
+              <Link
+                to="/login"
+                className="text-slate-300 hover:text-white font-medium transition-colors inline-flex items-center gap-1.5"
+              >
+                <FiArrowLeft size={14} />
+                <span>Quay lại trang Đăng nhập</span>
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </HomeLayout>
   );
 }
+
 export default ForgetPassword;

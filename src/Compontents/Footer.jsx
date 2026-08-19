@@ -8,8 +8,8 @@ function Footer() {
           <p className="text-sm">
             © 2025 Tekla API Course. All rights reserved.
           </p>
-          <p className="mt-2 text-sm">
-            📞 Hotline: 0947 895 039 | 📧 Email: sybuivan1429@gmal.com
+          <p className="mt-2 text-sm text-slate-400">
+            📞 Hotline: <a href="tel:0947895039" className="text-slate-200 hover:text-yellow-400">0947 895 039</a> | 📧 Email: <a href="mailto:sybuivan1429@gmail.com" className="text-slate-200 hover:text-yellow-400">sybuivan1429@gmail.com</a>
           </p>
         </section>
         <section className="flex  items-center justify-center gap-5 text-2xl text-white">

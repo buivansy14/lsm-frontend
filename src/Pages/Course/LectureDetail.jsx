@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { FaCheckCircle, FaLock } from 'react-icons/fa';
+import { FaCheckCircle, FaLock, FaPlus } from 'react-icons/fa';
+import { FiBookOpen, FiFileText, FiInfo, FiLayers, FiPlayCircle, FiSettings } from 'react-icons/fi';
 import { RxVideo } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -47,14 +48,13 @@ function LectureDetail() {
 
       const itemTop = activeItem.offsetTop;
       const itemBottom = itemTop + activeItem.offsetHeight;
-      const containerTop = container.scrollTop; // Vị trí cuộn hiện tại của container
-      const containerBottom = containerTop + container.clientHeight; // Bottom của vùng hiển thị
+      const containerTop = container.scrollTop;
+      const containerBottom = containerTop + container.clientHeight;
 
-      // Chỉ cuộn khi bài học bị ẩn trên hoặc dưới vùng nhìn thấy
       if (itemTop < containerTop) {
-        container.scrollTop = itemTop - 20; // Cuộn lên trên (thêm margin nhỏ)
+        container.scrollTop = itemTop - 20;
       } else if (itemBottom > containerBottom) {
-        container.scrollTop = itemBottom - container.clientHeight + 20; // Cuộn xuống dưới (thêm margin nhỏ)
+        container.scrollTop = itemBottom - container.clientHeight + 20;
       }
     }
   }, [lectureId]);
@@ -101,142 +101,240 @@ function LectureDetail() {
     }
   };
 
-  if (isLoading) return <LoadingOverlay isLoading={isLoading} />;
+  if (isLoading && !lectures?.title) return <LoadingOverlay isLoading={isLoading} />;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="min-h-screen bg-[#0b0f19] text-slate-100 antialiased">
+      {/* Top Navbar */}
       <NavbarLecture
         title={lectures?.title}
         completedLessons={lectures?.completedLectures}
         totalLessons={lectures?.totalLectures}
       />
-      <div className="flex flex-col lg:flex-row">
-        {/* Video Section */}
-        <div className="lg:w-3/4">
-          <div className="relative w-full h-[85vh] bg-black">
-            {!isVideoLoaded && lectures?.uploadType !== 'link' && (
-              <div className="w-full h-full cursor-pointer flex justify-center items-center bg-black group">
-                <div
-                  className="w-[90%] h-[90%] z-10"
-                  onClick={() => onLoadVideo(lectures?.videoId)}
-                >
-                  <img
-                    src={lectures?.thumbnailUrl}
-                    alt="Video thumbnail"
-                    className="w-[100%] h-full"
-                  />
+
+      {/* Slim Animated Top Progress Bar when Switching Lessons */}
+      {isLoading && (
+        <div className="fixed top-16 left-0 right-0 h-1 z-50 overflow-hidden bg-slate-900">
+          <div className="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500 animate-pulse w-full shadow-lg shadow-cyan-500/50" />
+        </div>
+      )}
+
+      {/* Main Container */}
+      <div className="pt-20 px-4 sm:px-6 lg:px-8 max-w-[1700px] mx-auto pb-12">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
+          
+          {/* Left Column: Video Section + Details */}
+          <div className="w-full lg:w-3/4 flex flex-col space-y-6">
+            
+            {/* Video Player Box */}
+            <div className="relative w-full h-[85vh] bg-black rounded-2xl overflow-hidden border border-slate-800 shadow-2xl shadow-black/80">
+              
+              {/* Subtle Loading overlay inside video box during lesson switch */}
+              {isLoading && (
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+                  <div className="w-10 h-10 border-2 border-blue-500/30 border-t-cyan-400 rounded-full animate-spin"></div>
+                  <span className="text-xs sm:text-sm font-medium text-slate-200 bg-slate-900/90 px-3.5 py-1.5 rounded-full border border-slate-700/80 shadow-xl">
+                    Đang tải bài học...
+                  </span>
                 </div>
-                <div className="absolute z-20">
+              )}
+
+              {!isVideoLoaded && lectures?.uploadType !== 'link' && (
+                <div className="w-full h-full cursor-pointer flex justify-center items-center bg-black group">
                   <div
+                    className="w-[90%] h-[90%] z-10"
                     onClick={() => onLoadVideo(lectures?.videoId)}
-                    className="flex justify-center items-center p-4 bg-red-600 rounded-full transition-all duration-300"
                   >
-                    <RxVideo
-                      color="white"
-                      size={30}
-                      className="group-hover:scale-150 transition-transform duration-300"
+                    <img
+                      src={lectures?.thumbnailUrl}
+                      alt="Video thumbnail"
+                      className="w-[100%] h-full"
                     />
                   </div>
-                </div>
-              </div>
-            )}
-            {lectures?.uploadType !== 'link' && isVideoLoaded && videoUrl && (
-              <VideoPlayer
-                key={videoUrl}
-                videoUrl={videoUrl}
-                onEnded={handleVideoEnd}
-              />
-            )}
-            {lectures?.uploadType === 'link' && (
-              <YouTubePlayer
-                key={videoUrl}
-                videoUrl={lectures?.videoUrl}
-                onEnded={handleVideoEnd}
-              />
-            )}
-          </div>
-
-          <h2 className="mt-6 text-2xl font-semibold">{lectures?.title}</h2>
-          <p className="text-white mt-2">{lectures?.description}</p>
-          <button
-            onClick={() => setOpen(true)}
-            className="mt-4 btn btn-active bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded-md text-lg text-white"
-          >
-            Setting video HD
-          </button>
-        </div>
-
-        {/* Fixed Sidebar */}
-        <div
-          className="lg:w-1/4 mt-6 lg:mt-0 lg:pl-8 sticky top-4 h-[80vh] overflow-y-auto"
-          ref={sidebarRef}
-        >
-          <h2 className="font-semibold text-lg mb-4">Nội dung khóa học</h2>
-          <ul className="space-y-2">
-            {lectures?.courseContent?.map((item, index) => (
-              <li
-                onClick={() => onNavigate(item)}
-                key={index}
-                ref={item.id === lectureId ? activeLectureRef : null}
-                className={`cursor-pointer flex items-center justify-between p-3 rounded-md shadow-sm transition-transform duration-300 w-[90%] ${
-                  item.id === lectureId
-                    ? 'bg-blue-200 hover:bg-blue-200'
-                    : item.locked
-                    ? 'bg-gray-300 cursor-not-allowed'
-                    : 'bg-gray-100 hover:bg-gray-200'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2 w-full relative">
-                  <div className="flex-1 overflow-hidden">
-                    <span
-                      className="font-medium text-sm text-gray-700 hover:text-gray-900 w-[95%] line-clamp-2 block"
-                      style={{
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        whiteSpace: 'normal',
-                      }}
-                      title={item.title}
+                  <div className="absolute z-20">
+                    <div
+                      onClick={() => onLoadVideo(lectures?.videoId)}
+                      className="flex justify-center items-center p-4 bg-red-600 rounded-full transition-all duration-300"
                     >
-                      {item.title}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <RxVideo color="red" />
-                      <span className="text-gray-700 text-sm">
-                        {formatSecondsToMMSS(item.duration)}
-                      </span>
+                      <RxVideo
+                        color="white"
+                        size={30}
+                        className="group-hover:scale-150 transition-transform duration-300"
+                      />
                     </div>
                   </div>
+                </div>
+              )}
+              {lectures?.uploadType !== 'link' && isVideoLoaded && videoUrl && (
+                <VideoPlayer
+                  key={videoUrl}
+                  videoUrl={videoUrl}
+                  onEnded={handleVideoEnd}
+                />
+              )}
+              {lectures?.uploadType === 'link' && (
+                <YouTubePlayer
+                  key={videoUrl}
+                  videoUrl={lectures?.videoUrl}
+                  onEnded={handleVideoEnd}
+                />
+              )}
+            </div>
 
-                  {item.completed && (
-                    <FaCheckCircle
-                      size={12}
-                      color="green"
-                      className="absolute right-0 top-1/2 transform -translate-y-1/2"
-                    />
-                  )}
-                  {item.locked && (
-                    <FaLock
-                      size={12}
-                      color="gray"
-                      className="absolute right-0 top-1/2 transform -translate-y-1/2"
-                    />
+            {/* Lecture Details Under Video */}
+            <div className="bg-[#131b2e]/80 border border-slate-800/80 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider">
+                    <FiPlayCircle size={13} /> Bài học hiện tại
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    {lectures?.title || 'Chi tiết bài học'}
+                  </h2>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setOpen(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700/80 text-sm font-medium transition-all shadow-sm group"
+                  >
+                    <FiSettings size={15} className="text-amber-400 group-hover:rotate-45 transition-transform duration-300" />
+                    <span>Cài đặt video HD</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="mt-4 pt-1">
+                <div className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-2">
+                  <FiFileText size={15} className="text-blue-400" />
+                  <span>Mô tả bài học</span>
+                </div>
+                <div className="text-slate-300 text-sm sm:text-base leading-relaxed bg-[#0b0f19]/50 p-4 rounded-xl border border-slate-800/50">
+                  {lectures?.description ? (
+                    <p className="whitespace-pre-line">{lectures.description}</p>
+                  ) : (
+                    <p className="text-slate-500 italic">Không có mô tả chi tiết cho bài học này.</p>
                   )}
                 </div>
-              </li>
-            ))}
-          </ul>
-          {role === 'ADMIN' && (
-            <button
-              onClick={() => navigate(`/course/add-lecture/${courseId}`)}
-              className="mt-4 btn btn-active bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded-md text-lg text-white"
-            >
-              Thêm mới bài học{' '}
-            </button>
-          )}
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column: Sidebar Curriculum Playlist */}
+          <div className="w-full lg:w-1/4 sticky top-20 h-[85vh] flex flex-col">
+            <div className="bg-[#131b2e]/80 border border-slate-800/80 rounded-2xl p-4 shadow-xl backdrop-blur-sm flex flex-col h-full overflow-hidden">
+              
+              {/* Sidebar Header */}
+              <div className="pb-3 mb-2 border-b border-slate-800/80 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                    <FiLayers size={15} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm sm:text-base text-white">Nội dung khóa học</h3>
+                    <p className="text-[11px] text-slate-400">
+                      {lectures?.courseContent?.length || 0} bài học
+                    </p>
+                  </div>
+                </div>
+
+                {role === 'ADMIN' && (
+                  <button
+                    onClick={() => navigate(`/course/add-lecture/${courseId}`)}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-semibold transition-all"
+                  >
+                    <FaPlus size={9} /> Thêm bài
+                  </button>
+                )}
+              </div>
+
+              {/* Playlist Items */}
+              <ul
+                ref={sidebarRef}
+                className="space-y-2 overflow-y-auto flex-1 pr-1 custom-scrollbar"
+                style={{ scrollBehavior: 'smooth' }}
+              >
+                {lectures?.courseContent?.map((item, index) => {
+                  const isActive = item.id === lectureId;
+                  const lessonIndex = index + 1 < 10 ? `0${index + 1}` : index + 1;
+
+                  return (
+                    <li
+                      onClick={() => onNavigate(item)}
+                      key={index}
+                      ref={isActive ? activeLectureRef : null}
+                      className={`cursor-pointer flex items-center justify-between p-3 rounded-xl border transition-all duration-200 ${
+                        isActive
+                          ? 'bg-blue-600/20 border-l-4 border-l-blue-500 border-blue-500/50 shadow-md shadow-blue-950/40 text-white'
+                          : item.locked
+                          ? 'bg-slate-900/30 border-slate-800/30 text-slate-500 cursor-not-allowed opacity-50'
+                          : 'bg-slate-800/40 hover:bg-slate-800/80 border-slate-800/60 text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      <div className="flex items-start gap-2.5 w-full relative">
+                        <span
+                          className={`text-xs font-mono font-bold px-1.5 py-0.5 rounded mt-0.5 shrink-0 ${
+                            isActive
+                              ? 'bg-blue-500 text-white'
+                              : 'bg-slate-800 text-slate-400'
+                          }`}
+                        >
+                          {lessonIndex}
+                        </span>
+
+                        <div className="flex-1 overflow-hidden pr-6">
+                          <span
+                            className={`font-medium text-xs sm:text-sm line-clamp-2 block leading-snug ${
+                              isActive ? 'text-blue-200 font-semibold' : ''
+                            }`}
+                            title={item.title}
+                          >
+                            {item.title}
+                          </span>
+                          <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-slate-400">
+                            <RxVideo color={isActive ? '#60a5fa' : '#9ca3af'} size={13} />
+                            <span>{formatSecondsToMMSS(item.duration)}</span>
+                          </div>
+                        </div>
+
+                        {isActive && isLoading ? (
+                          <div className="w-3.5 h-3.5 border-2 border-blue-400/30 border-t-cyan-400 rounded-full animate-spin absolute right-0 top-1/2 -translate-y-1/2 shrink-0" />
+                        ) : item.completed ? (
+                          <FaCheckCircle
+                            size={14}
+                            className="text-emerald-400 absolute right-0 top-1/2 transform -translate-y-1/2 shrink-0"
+                            title="Đã hoàn thành"
+                          />
+                        ) : item.locked ? (
+                          <FaLock
+                            size={12}
+                            className="text-slate-600 absolute right-0 top-1/2 transform -translate-y-1/2 shrink-0"
+                            title="Bài học bị khóa"
+                          />
+                        ) : null}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              {/* Sidebar Footer Tip */}
+              <div className="pt-2.5 mt-2 border-t border-slate-800/80 text-center">
+                <p className="text-[11px] text-slate-500 flex items-center justify-center gap-1">
+                  <FiInfo size={11} />
+                  <span>Hoàn thành bài học để mở khóa bài tiếp theo</span>
+                </p>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
 
+      {/* HD Video Modal */}
       <SettingVideoHD
         isOpen={open}
         closeModal={() => {

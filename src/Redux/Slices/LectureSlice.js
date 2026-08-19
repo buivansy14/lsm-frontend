@@ -16,7 +16,8 @@ export const getCourseLectures = createAsyncThunk(
   async ({ courseId, lectureId }) => {
     try {
       const response = axiosInstance.get(
-        `/course/${courseId}/lectures/${lectureId}`
+        `/course/${courseId}/lectures/${lectureId}`,
+        { showLoading: false }
       );
       return (await response).data;
     } catch (error) {

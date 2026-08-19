@@ -1,18 +1,18 @@
-export const LoadingButton = ({ isLoading, label }) => {
+export const LoadingButton = ({ isLoading, label, className = '' }) => {
   return (
     <button
       type="submit"
-      className={`mt-2 ${
-        isLoading
-          ? 'bg-gray-400 cursor-not-allowed'
-          : 'bg-yellow-600 hover:bg-yellow-500'
-      } py-2 font-semibold text-lg cursor-pointer transition-all ease-in-out duration-300 rounded-sm px-2 text-white`}
       disabled={isLoading}
+      className={`w-full py-3.5 px-6 rounded-xl font-bold text-sm sm:text-base transition-all duration-200 shadow-md ${
+        isLoading
+          ? 'bg-slate-700 text-slate-400 cursor-not-allowed opacity-80'
+          : 'bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-amber-500/20 hover:scale-[1.01] active:scale-99'
+      } ${className}`}
     >
       {isLoading ? (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center gap-2">
           <svg
-            className="animate-spin h-5 w-5 text-white mr-2"
+            className="animate-spin h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -31,7 +31,7 @@ export const LoadingButton = ({ isLoading, label }) => {
               d="M4 12a8 8 0 018-8v8H4z"
             ></path>
           </svg>
-          Đang xử lý...
+          <span>Đang xử lý...</span>
         </div>
       ) : (
         label

@@ -7,79 +7,83 @@ export default function ToolTabs({ tool }) {
   const { t } = useTranslation();
 
   const tabs = [
-    { id: 'desc', label: t('lbl_detailed_description'), icon: <FiFileText /> },
-    { id: 'install', label: t('lbl_installation_guide'), icon: <FiTool /> },
+    { id: 'desc', label: t('lbl_detailed_description') || 'Mô tả chi tiết', icon: <FiFileText /> },
+    { id: 'install', label: t('lbl_installation_guide') || 'Hướng dẫn cài đặt', icon: <FiTool /> },
     {
       id: 'comment',
-      label: `${t('lbl_comments')} (0)`,
+      label: `${t('lbl_comments') || 'Bình luận'} (0)`,
       icon: <FiMessageSquare />,
     },
-    { id: 'review', label: `${t('lbl_reviews')} (0)`, icon: <FiStar /> },
+    { id: 'review', label: `${t('lbl_reviews') || 'Đánh giá'} (0)`, icon: <FiStar /> },
   ];
 
   return (
-    <div className="mt-10 mb-5 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-      {/* 🟨 Tabs header */}
-      <div className="flex overflow-x-auto border-b border-gray-200 bg-gray-50/80 scrollbar-thin scroll-smooth">
+    <div className="mt-12 mb-8 bg-[#131b2e]/80 rounded-2xl shadow-xl border border-slate-800/80 overflow-hidden backdrop-blur-md">
+      {/* Tabs header */}
+      <div className="flex overflow-x-auto border-b border-slate-800 bg-[#0b0f19]/80 scrollbar-thin">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all whitespace-nowrap ${
+            className={`flex items-center gap-2 px-6 py-4 text-xs sm:text-sm font-semibold tracking-wide transition-all whitespace-nowrap border-b-2 ${
               activeTab === tab.id
-                ? 'text-yellow-700 border-b-2 border-yellow-600 bg-white shadow-sm'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-white/70'
+                ? 'text-blue-400 border-blue-500 bg-[#131b2e]/60 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 border-transparent hover:bg-slate-850'
             }`}
           >
-            <span className="text-lg sm:text-base">{tab.icon}</span>
+            <span className="text-base sm:text-lg">{tab.icon}</span>
             <span>{tab.label}</span>
           </button>
         ))}
       </div>
 
-      {/* 🟩 Tabs content */}
-      <div className="p-4 sm:p-6 text-gray-700 min-h-[200px] animate-fadeIn text-sm sm:text-base leading-relaxed">
+      {/* Tabs content */}
+      <div className="p-6 sm:p-8 text-slate-300 min-h-[220px] text-sm sm:text-base leading-relaxed">
         {activeTab === 'desc' && (
-          <div className="space-y-3">
-            <h2 className="text-lg font-semibold text-gray-800">
-              {t('lbl_detailed_introduction')}
+          <div className="space-y-4">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <FiFileText className="text-blue-400" />
+              <span>{t('lbl_detailed_introduction') || 'Giới thiệu chi tiết'}</span>
             </h2>
             <div
-                dangerouslySetInnerHTML={{
-                  __html: tool?.description,
-                }}
-              />
+              className="prose prose-invert max-w-none text-slate-300 leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html: tool?.description || '<p>Chưa có mô tả chi tiết cho công cụ này.</p>',
+              }}
+            />
           </div>
         )}
 
         {activeTab === 'install' && (
-          <div className="space-y-3">
-            <h2 className="text-lg font-semibold text-gray-800">
-              {t('lbl_installation_guide')}
+          <div className="space-y-4">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <FiTool className="text-amber-400" />
+              <span>{t('lbl_installation_guide') || 'Hướng dẫn cài đặt'}</span>
             </h2>
             {tool?.installationGuide ? (
               <div
+                className="prose prose-invert max-w-none text-slate-300 leading-relaxed bg-[#0b0f19]/50 p-5 rounded-xl border border-slate-800/60"
                 dangerouslySetInnerHTML={{
                   __html: tool.installationGuide,
                 }}
               />
             ) : (
-              <p className="text-gray-500 italic">
-                {t('lbl_no_installation_guide')}
+              <p className="text-slate-500 italic">
+                {t('lbl_no_installation_guide') || 'Chưa có hướng dẫn cài đặt.'}
               </p>
             )}
           </div>
         )}
 
         {activeTab === 'comment' && (
-          <div className="text-gray-500 italic">
-            {t('lbl_comment_feature_in_dev')}
+          <div className="text-slate-500 italic text-center py-8 bg-[#0b0f19]/30 rounded-xl border border-slate-800/40">
+            {t('lbl_comment_feature_in_dev') || 'Tính năng bình luận đang được phát triển.'}
           </div>
         )}
 
         {activeTab === 'review' && (
-          <div className="text-gray-500 italic">
-            {t('lbl_comment_feature_in_dev')}
+          <div className="text-slate-500 italic text-center py-8 bg-[#0b0f19]/30 rounded-xl border border-slate-800/40">
+            {t('lbl_comment_feature_in_dev') || 'Tính năng đánh giá đang được phát triển.'}
           </div>
         )}
       </div>

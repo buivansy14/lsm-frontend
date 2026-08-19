@@ -5,7 +5,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const { t } = useTranslation();
   if (totalPages < 1) return null;
 
-  // Tạo danh sách trang hiển thị (ẩn bớt bằng "...")
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 5;
@@ -30,38 +29,36 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = getPageNumbers();
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-10 mb-5 select-none">
+    <div className="flex justify-center items-center gap-2 mt-12 mb-6 select-none">
       {/* Nút Trước */}
       <button
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm transition-all 
-          ${
-            currentPage === 1
-              ? 'text-gray-400 border-gray-200 cursor-not-allowed'
-              : 'text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-indigo-600'
-          }`}
+        className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs sm:text-sm font-medium transition-all ${
+          currentPage === 1
+            ? 'text-slate-600 border-slate-800/60 cursor-not-allowed bg-slate-900/40'
+            : 'text-slate-300 border-slate-700/80 bg-slate-900/80 hover:bg-slate-800 hover:text-white'
+        }`}
       >
         <FiChevronLeft className="w-4 h-4" />
-        <span className="hidden sm:inline">{t('lbl_previous')}</span>
+        <span className="hidden sm:inline">{t('lbl_previous') || 'Trước'}</span>
       </button>
 
       {/* Các số trang */}
       {pages.map((page, idx) =>
         page === '...' ? (
-          <span key={idx} className="px-2 text-gray-400">
+          <span key={idx} className="px-2 text-slate-500 font-mono text-sm">
             ...
           </span>
         ) : (
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`w-8 h-8 flex items-center justify-center rounded-lg border text-sm font-medium transition-all 
-              ${
-                page === currentPage
-                  ? 'bg-yellow-600 text-white border-yellow-600 shadow-sm'
-                  : 'border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-yellow-600'
-              }`}
+            className={`w-9 h-9 flex items-center justify-center rounded-xl border text-xs sm:text-sm font-semibold transition-all ${
+              page === currentPage
+                ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/30'
+                : 'border-slate-800 bg-slate-900/80 text-slate-300 hover:bg-slate-800 hover:text-white'
+            }`}
           >
             {page}
           </button>
@@ -72,14 +69,13 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       <button
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm transition-all 
-          ${
-            currentPage === totalPages
-              ? 'text-gray-400 border-gray-200 cursor-not-allowed'
-              : 'text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-indigo-600'
-          }`}
+        className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs sm:text-sm font-medium transition-all ${
+          currentPage === totalPages
+            ? 'text-slate-600 border-slate-800/60 cursor-not-allowed bg-slate-900/40'
+            : 'text-slate-300 border-slate-700/80 bg-slate-900/80 hover:bg-slate-800 hover:text-white'
+        }`}
       >
-        <span className="hidden sm:inline">{t('lbl_next')}</span>
+        <span className="hidden sm:inline">{t('lbl_next') || 'Sau'}</span>
         <FiChevronRight className="w-4 h-4" />
       </button>
     </div>
