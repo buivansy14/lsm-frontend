@@ -37,8 +37,13 @@ import ToolList from './Pages/Tool/ToolList/ToolList.jsx';
 import EditProfile from './Pages/User/EditProfile.jsx';
 import Profile from './Pages/User/Profile.jsx';
 
+import { warmUpServer } from './Helpers/axiosinstance.js';
+
 function App() {
   useEffect(() => {
+    // Tự động gửi tín hiệu đánh thức Render backend ngay khi mở web
+    warmUpServer();
+
     const handleKeyDown = (e) => {
       if (
         e.key === 'F12' ||
